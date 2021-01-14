@@ -1,10 +1,16 @@
 import express from "express";
+// var router = express.Router();
 
 const app = express();
-const PORT = 3000;
+// const PORT = 5000;
 
-app.get("/", (req, res) => res.send(`My Academia is running ${PORT}`));
+// app.get("/", function (req, res, next) {
+//   // res.render("home"); //rendering the index file by putting in express router.
+//   res.send("MyAcademia");
+// });
 
-app.listen(PORT, () =>
-  console.log(`MyAcademia server is running on port ${PORT}`)
-);
+// app.listen(PORT, () =>
+//   console.log(`MyAcademia server is running on port ${PORT}`)
+// );
+
+// module.exports = app;
