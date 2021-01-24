@@ -1,65 +1,67 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import Axios from "axios";
+import { AuthContext } from "../Context/AuthContext";
+import Message from "./Message";
 
 //creating class and extending the component
-class Register extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      registerUsername: "",
-      registerPassword: "",
-    };
-  }
+const Register = (props) => {
+  const [user, setUser] = useState({ username: "", password: "" });
+  const [message, setMessage] = useState(null);
+  const authContext = useContext(AuthContext);
 
   //making function getvalue to take value from input fields in the form
-  getValue = (e) => {
-    const registerUsername = e.target.value;
-    const registerPassword = e.target.value;
-
-    this.setState({
-      registerUsername: registerUsername,
-      registerPassword: registerPassword,
-    });
+  const onChange = (e) => {
+    e.preventDefault();
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
   // creating register function and using axios to store the value in database
   // Reference: https://github.com/woodburydev/passport-local-video/blob/master/client/src/App.js
-  register = () => {
+  const onSubmit = (e) => {
+    e.preventDefault();
     Axios({
       method: "POST",
       data: {
-        username: this.state.registerUsername,
-        password: this.state.registerPassword,
+        username: user.username,
+        password: user.password,
       },
       withCredentials: true,
-      url: "http://localhost:4000/register",
+      url: "http://localhost:4000/user/register",
     }).then((res) => console.log(res));
+    setMessage(message);
+    props.history.push("/login");
   };
 
   // rendering the page with jsx elements
-  render() {
-    return (
-      <div>
-        Register Here
-        <div>
-          <h1>Register</h1>
-          <input
-            placeholder="username"
-            onChange={this.getValue}
-            ref={(input) => (this.registerUsername = input)}
-            name="username"
-          />
-          <input
-            placeholder="password"
-            onChange={this.getValue}
-            ref={(input) => (this.registerUsername = input)}
-            name="password"
-          />
-          <button onClick={this.register}>Submit</button>
-        </div>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <form onSubmit={onSubmit}>
+        <h1>Register</h1>
+        <label htmlFor="username" className="sr-only">
+          Username:{" "}
+        </label>
+        <input
+          placeholder="username"
+          onChange={onChange}
+          name="username"
+          type="text"
+          className="form-control"
+        />
+        <label htmlFor="password" className="sr-only">
+          Password:{" "}
+        </label>
+        <input
+          placeholder="password"
+          onChange={onChange}
+          name="password"
+          type="password"
+          className="form-control"
+        />
+        <button className="btn btn-lg btn-primary btn-block">Submit</button>
+        {message ? <Message message={message} /> : null}
+      </form>
+    </div>
+  );
+};
 
 export default Register;

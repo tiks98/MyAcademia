@@ -1,14 +1,21 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import Login from "./Login";
-import Register from "./Register";
-// import user from "../../../backend/app";
-// import app from "../../../backend/app";
+import AuthService from "../Services/AuthService";
+import { AuthContext } from "../Context/AuthContext";
 
 const Navbar = (props) => {
-  //   const { isAuthenticated, user, setIsAuthenticated, setUser } = useContext(
-  //     app
-  //   );
+  const { isAuthenticated, user, setIsAuthenticated, setUser } = useContext(
+    AuthContext
+  );
+
+  // const onClickLogoutHandler = () => {
+  //   AuthService.logout().then((data) => {
+  //     if (data.success) {
+  //       setUser(data.user);
+  //       setIsAuthenticated(false);
+  //     }
+  //   });
+  // };
 
   const unauthenticatedNavbar = () => {
     return (
@@ -32,6 +39,16 @@ const Navbar = (props) => {
         <Link to="/">
           <li className="nav-item nav-link">Home</li>
         </Link>
+        {/* <Link to="/logout">
+          <li className="nav-item nav-link">Logout</li>
+        </Link> */}
+        {/* <button
+          type="button"
+          className="btn btn-link nav-item nav-link"
+          onClick={onClickLogoutHandler}
+        >
+          Logout
+        </button> */}
         <Link to="/logout">
           <li className="nav-item nav-link">Logout</li>
         </Link>
@@ -58,8 +75,7 @@ const Navbar = (props) => {
         </button>
         <div className="collapse navbar-collapse" id="navbarText">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            {/* {!isAuthenticated ? unauthenticatedNavbar() : authenticatedNavbar()} */}
-            {unauthenticatedNavbar()}
+            {!isAuthenticated ? unauthenticatedNavbar() : authenticatedNavbar()}
           </ul>
           <span className="navbar-text">
             Navbar text with an inline element

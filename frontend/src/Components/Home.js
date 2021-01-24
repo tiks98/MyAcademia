@@ -1,27 +1,22 @@
-import React from "react";
-import Axios from "axios";
+import React, { useContext } from "react";
+import { AuthContext } from "../Context/AuthContext";
+import AuthService from "../Services/AuthService";
 
-class Home extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const Home = (props) => {
+  const authContext = useContext(AuthContext);
+  // const getUsername = () => {
+  //   AuthService.isAuthenticated().then((data) => {
+  //     console.log(data.username);
+  //     console.log(authContext.username);
+  //   });
+  // };
 
-  getUser = (Username) => {
-    Axios({
-      method: "GET",
-      withCredentials: true,
-      url: "http://localhost:4000/user",
-    }).then((res) => {
-      this.setData(res.data);
-      console.log(res.data.username);
-      this.Username = res.data.username;
-    });
-    return Username;
-  };
-
-  render() {
-    return <div>{<h1>Welcome Back {this.getUser.Username}</h1>}</div>;
-  }
-}
+  return (
+    <div>
+      <h1>Welcome Back</h1>
+      {/* <h2>{getUsername}</h2> */}
+    </div>
+  );
+};
 
 export default Home;
