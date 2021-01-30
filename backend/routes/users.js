@@ -17,34 +17,6 @@ const signToken = (userID) => {
   );
 };
 
-// router.post("/login", (req, res, next) => {
-//   passport.authenticate("local", { session: false }, (err, user, info) => {
-//     if (req.isAuthenticated()) {
-//       const { _id, username } = req.user;
-//       const token = signToken(_id);
-//       res.cookie("access_token", token, { httpOnly: true, sameSite: true });
-//       res.status(200).json({ isAuthenticated: true, user: { username } });
-//     }
-//     if (err) throw err;
-//     if (!user) res.send("Username or Password is incorrect");
-//     else {
-//       req.logIn(user, (err) => {
-//         if (err) throw err;
-//         // res.send("Successfully Authenticated");
-//         // res.locals.isLoggedIn = req.isAuthenticated();
-//         // res.locals.user = req.user;
-
-//         // if (req.isAuthenticated()) {
-//         //   res.locals.role = req.user.role;
-//         // } else {
-//         //   res.locals.role = null;
-//         // }
-//         console.log(req.user);
-//       });
-//     }
-//   })(req, res, next);
-// });
-
 router.post(
   "/login",
   passport.authenticate("local", { session: false }),
@@ -75,8 +47,13 @@ router.get(
 router.post("/register", (req, res) => {
   //   const { username, password } = req.body;
   User.findOne({ username: req.body.username }, async (err, doc) => {
-    if (err) throw err;
-    if (doc) res.send("User Already Exists");
+    if (err)
+      res.status(500).json({
+        message: { msgBody: "Error has Occured", msgError: true },
+      });
+    if (doc) {
+      res.json({ message: { msgBody: "User Already Exists", msgError: true } });
+    }
     if (!doc) {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
@@ -85,7 +62,9 @@ router.post("/register", (req, res) => {
         password: hashedPassword,
       });
       await newUser.save();
-      res.send("User Created");
+      res.status(201).json({
+        message: { msgBody: "Account successfully created", msgError: false },
+      });
     }
   });
 });
@@ -97,10 +76,6 @@ router.get(
   "/logout",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    // req.session.destroy(() => {
-    //   // redirecting to the Index page after destroying the session.
-    //   res.redirect("/");
-    // });
     // Destroying the session at the end
     res.clearCookie("access_token");
     res.json({ user: { username: "" }, success: true });

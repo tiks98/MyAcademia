@@ -2,27 +2,40 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import AuthService from "../Services/AuthService";
 import { AuthContext } from "../Context/AuthContext";
+import { GoogleLogout } from "react-google-login";
 
 const Navbar = (props) => {
-  const { isAuthenticated, user, setIsAuthenticated, setUser } = useContext(
-    AuthContext
-  );
+  const {
+    isAuthenticated,
+    user,
+    setIsAuthenticated,
+    setUser,
+    googleLogin,
+    setGoogleLogin,
+  } = useContext(AuthContext);
 
-  // const onClickLogoutHandler = () => {
-  //   AuthService.logout().then((data) => {
-  //     if (data.success) {
-  //       setUser(data.user);
-  //       setIsAuthenticated(false);
-  //     }
-  //   });
-  // };
+  const onLogoutSuccess = (res) => {
+    alert("Logout Successful");
+    setIsAuthenticated(false);
+    setGoogleLogin(false);
+  };
+
+  const onFailure = () => {
+    alert("Logout Unsuccessful, Please try again later");
+  };
+
+  const onClickLogoutHandler = () => {
+    AuthService.logout().then((data) => {
+      if (data.success) {
+        setUser(data.user);
+        setIsAuthenticated(false);
+      }
+    });
+  };
 
   const unauthenticatedNavbar = () => {
     return (
       <>
-        <Link to="/">
-          <li className="nav-item nav-link">Home</li>
-        </Link>
         <Link to="/login">
           <li className="nav-item nav-link">Login</li>
         </Link>
@@ -39,19 +52,23 @@ const Navbar = (props) => {
         <Link to="/">
           <li className="nav-item nav-link">Home</li>
         </Link>
-        {/* <Link to="/logout">
-          <li className="nav-item nav-link">Logout</li>
-        </Link> */}
-        {/* <button
-          type="button"
-          className="btn btn-link nav-item nav-link"
-          onClick={onClickLogoutHandler}
-        >
-          Logout
-        </button> */}
-        <Link to="/logout">
-          <li className="nav-item nav-link">Logout</li>
-        </Link>
+        {!googleLogin ? (
+          <button
+            type="button"
+            className="btn btn-link nav-item nav-link"
+            onClick={onClickLogoutHandler}
+          >
+            Logout
+          </button>
+        ) : (
+          <GoogleLogout
+            clientId="255153393550-c00iv7khe28pcrheeitfh6p20h6ie83o.apps.googleusercontent.com"
+            buttonText="Logout"
+            onLogoutSuccess={onLogoutSuccess}
+            onFailure={onFailure}
+            href="/login"
+          ></GoogleLogout>
+        )}
       </>
     );
   };
@@ -59,9 +76,7 @@ const Navbar = (props) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
-        <Link to="/">
-          <div className="navbar-brand">MyAcademia</div>
-        </Link>
+        <div className="navbar-brand">MyAcademia</div>
         <button
           className="navbar-toggler"
           type="button"

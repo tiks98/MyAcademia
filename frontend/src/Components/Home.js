@@ -1,20 +1,15 @@
 import React, { useContext } from "react";
+import { Redirect } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
-import AuthService from "../Services/AuthService";
 
 const Home = (props) => {
-  const authContext = useContext(AuthContext);
-  // const getUsername = () => {
-  //   AuthService.isAuthenticated().then((data) => {
-  //     console.log(data.username);
-  //     console.log(authContext.username);
-  //   });
-  // };
+  const { isAuthenticated, user, googleLogin } = useContext(AuthContext);
 
   return (
     <div>
+      {!isAuthenticated ? <Redirect to="/login" /> : null}
       <h1>Welcome Back</h1>
-      {/* <h2>{getUsername}</h2> */}
+      <h2>{!user.username ? null : user.username}</h2>
     </div>
   );
 };

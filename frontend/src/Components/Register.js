@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Axios from "axios";
 import { AuthContext } from "../Context/AuthContext";
 import Message from "./Message";
@@ -7,12 +7,22 @@ import Message from "./Message";
 const Register = (props) => {
   const [user, setUser] = useState({ username: "", password: "" });
   const [message, setMessage] = useState(null);
-  const authContext = useContext(AuthContext);
+  let timerID = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timerID);
+    };
+  }, []);
 
   //making function getvalue to take value from input fields in the form
   const onChange = (e) => {
     e.preventDefault();
     setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  const resetForm = () => {
+    setUser({ username: "", password: "" });
   };
 
   // creating register function and using axios to store the value in database
@@ -27,9 +37,17 @@ const Register = (props) => {
       },
       withCredentials: true,
       url: "http://localhost:4000/user/register",
-    }).then((res) => console.log(res));
-    setMessage(message);
-    props.history.push("/login");
+    }).then((data) => {
+      const { message } = data.data;
+      setMessage(message);
+      resetForm();
+      console.log(message);
+      if (!message.msgError) {
+        timerID = setTimeout(() => {
+          props.history.push("/login");
+        }, 2000);
+      }
+    });
   };
 
   // rendering the page with jsx elements
@@ -41,25 +59,27 @@ const Register = (props) => {
           Username:{" "}
         </label>
         <input
-          placeholder="username"
+          placeholder="Enter Username"
           onChange={onChange}
           name="username"
           type="text"
           className="form-control"
+          required
         />
         <label htmlFor="password" className="sr-only">
           Password:{" "}
         </label>
         <input
-          placeholder="password"
+          placeholder="Enter Password"
           onChange={onChange}
           name="password"
           type="password"
           className="form-control"
+          required
         />
         <button className="btn btn-lg btn-primary btn-block">Submit</button>
-        {message ? <Message message={message} /> : null}
       </form>
+      {message ? <Message message={message} /> : null}
     </div>
   );
 };
