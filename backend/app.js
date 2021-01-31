@@ -22,7 +22,6 @@ var db = mongoose.connection;
 db.on("error", () => console.log("There was a error connecting to MongoDB"));
 db.once("open", () => console.log("We have connected to MongoDB"));
 
-var authRouter = require("./routes/auth");
 const userRouter = require("./routes/users");
 // var indexRouter = require("./index");
 // var homeRouter = require("./routes/home");

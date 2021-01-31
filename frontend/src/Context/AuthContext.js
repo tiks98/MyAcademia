@@ -36,13 +36,6 @@ export default ({ children }) => {
           {children}
         </AuthContext.Provider>
       )}
-      {/* {
-        <AuthContext.Provider
-          value={{ user, setUser, isAuthenticated, setIsAuthenticated }}
-        >
-          {children}
-        </AuthContext.Provider>
-      } */}
     </div>
   );
 };
