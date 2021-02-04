@@ -9,6 +9,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const app = express();
 var User = require("./models/user");
+var Profile = require("./models/profile");
 app.use(cookieParser());
 app.use(express.json());
 
@@ -23,6 +24,7 @@ db.on("error", () => console.log("There was a error connecting to MongoDB"));
 db.once("open", () => console.log("We have connected to MongoDB"));
 
 const userRouter = require("./routes/users");
+const profileRouter = require("./routes/profilesRoute");
 // var indexRouter = require("./index");
 // var homeRouter = require("./routes/home");
 
@@ -49,6 +51,7 @@ require("./passportConfig")(passport);
 
 // app.use("/", authRouter); //routing it to authRouter
 app.use("/user", userRouter);
+app.use("/", profileRouter);
 
 app.listen(4000, () => {
   console.log("Server has started");

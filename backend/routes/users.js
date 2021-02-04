@@ -69,7 +69,8 @@ router.post("/register", (req, res) => {
   });
 });
 router.get("/user", (req, res) => {
-  res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
+  const { username, role } = req.user;
+  res.json({ user: { username } }); // The req.user stores the entire user that has been authenticated inside of it.
 });
 
 router.get(

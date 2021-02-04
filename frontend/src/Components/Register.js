@@ -15,7 +15,7 @@ const Register = (props) => {
     };
   }, []);
 
-  //making function getvalue to take value from input fields in the form
+  //making function onChange to take value from input fields in the form
   const onChange = (e) => {
     e.preventDefault();
     setUser({ ...user, [e.target.name]: e.target.value });
