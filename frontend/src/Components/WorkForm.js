@@ -4,19 +4,16 @@ import { Redirect } from "react-router-dom";
 import Message from "./Message";
 import { AuthContext } from "../Context/AuthContext";
 
-const ProfileForm = (props) => {
+const WorkForm = (props) => {
   const { isAuthenticated, user } = useContext(AuthContext);
 
-  const [profile, setProfile] = useState({
-    firstName: "",
-    lastName: "",
+  const [work, setWork] = useState({
+    position: "",
+    employerName: "",
+    startDate: "",
+    endDate: "",
+    currentJob: false,
     username: "",
-    email: "",
-    collegeName: "",
-    location: "",
-    IQ: 0,
-    about: "",
-    isFaculty: false,
   });
   const [message, setMessage] = useState(null);
   let timerID = useRef(null);
@@ -30,20 +27,17 @@ const ProfileForm = (props) => {
   //making function onChange to take value from input fields in the form
   const onChange = (e) => {
     e.preventDefault();
-    setProfile({ ...profile, [e.target.name]: e.target.value });
+    setWork({ ...work, [e.target.name]: e.target.value });
   };
 
   const resetForm = () => {
-    setProfile({
-      firstName: "",
-      lastName: "",
+    setWork({
+      position: "",
+      employerName: "",
+      startDate: "",
+      endDate: "",
+      currentJob: false,
       username: "",
-      email: "",
-      collegeName: "",
-      location: "",
-      IQ: 0,
-      about: "",
-      isFaculty: false,
     });
   };
 
@@ -52,19 +46,17 @@ const ProfileForm = (props) => {
     Axios({
       method: "POST",
       data: {
-        firstName: profile.firstName,
-        lastName: profile.lastName,
+        position: work.position,
+        employerName: work.employerName,
+        startDate: work.startDate,
+        endDate: work.endDate,
+        currentJob: work.currentJob,
         username: user.username,
-        email: profile.email,
-        collegeName: profile.collegeName,
-        location: profile.location,
-        IQ: profile.IQ,
-        about: profile.about,
-        isFaculty: profile.isFaculty,
       },
       withCredentials: true,
-      url: "http://localhost:4000/newprofile",
+      url: "http://localhost:4000/newwork",
     }).then((data) => {
+      console.log(data);
       const { message } = data.data;
       setMessage(message);
       resetForm();
@@ -81,28 +73,28 @@ const ProfileForm = (props) => {
     <div>
       {!isAuthenticated ? <Redirect to="/login" /> : null}
       <form onSubmit={onSubmit}>
-        <h1>Create Your Profile</h1>
+        <h1>Add Your Work Details</h1>
         <div className="mb-3">
-          <label htmlFor="firstName" className="form-label">
-            First Name:{" "}
+          <label htmlFor="position" className="form-label">
+            Job Position:{" "}
           </label>
           <input
-            placeholder="Enter First Name"
+            placeholder="Enter Job Position"
             onChange={onChange}
-            name="firstName"
+            name="position"
             type="text"
             className="form-control"
             required
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="lastName" className="form-label">
-            Last Name:{" "}
+          <label htmlFor="employerName" className="form-label">
+            Name of your Employer:{" "}
           </label>
           <input
-            placeholder="Enter Last Name"
+            placeholder="Enter Name of Employer"
             onChange={onChange}
-            name="lastName"
+            name="employerName"
             type="text"
             className="form-control"
             required
@@ -112,76 +104,39 @@ const ProfileForm = (props) => {
           Username: {user.username}
         </label>
         <div className="mb-3">
-          <label htmlFor="email" className="form-label">
-            Email:{" "}
+          <label htmlFor="startDate" className="form-label">
+            Start Date:{" "}
           </label>
           <input
-            placeholder="Enter Email"
+            placeholder="Enter Start Date"
             onChange={onChange}
-            name="email"
-            type="email"
+            name="startDate"
+            type="date"
             className="form-control"
             required
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="collegeName" className="form-label">
-            College Name:{" "}
+          <label htmlFor="endDate" className="form-label">
+            End Date:{" "}
           </label>
           <input
-            placeholder="Enter College Name"
+            placeholder="Enter End Date"
             onChange={onChange}
-            name="collegeName"
-            type="text"
+            name="endDate"
+            type="date"
             className="form-control"
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="location" className="form-label">
-            Location:{" "}
-          </label>
-          <input
-            placeholder="Enter Location"
-            onChange={onChange}
-            name="location"
-            type="text"
-            className="form-control"
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="IQ" className="form-label">
-            IQ:{" "}
-          </label>
-          <input
-            placeholder="Enter IQ"
-            onChange={onChange}
-            name="IQ"
-            type="number"
-            className="form-control"
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="about" className="form-label">
-            About:{" "}
-          </label>
-          <textarea
-            placeholder="About Yourself"
-            onChange={onChange}
-            name="about"
-            type="textarea"
-            className="form-control"
-            rows="3"
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="isFaculty" className="form-label">
-            Are you a Faculty:{" "}
+          <label htmlFor="currentCollege" className="form-label">
+            Is this your Current Job:{" "}
           </label>
           <div className="form-check">
             <input
               className="form-check-input"
               type="radio"
-              name="isFaculty"
+              name="currentJob"
               id="Yes"
               value="true"
               onChange={onChange}
@@ -194,7 +149,7 @@ const ProfileForm = (props) => {
             <input
               className="form-check-input"
               type="radio"
-              name="isFaculty"
+              name="currentJob"
               id="No"
               value="false"
               onChange={onChange}
@@ -212,4 +167,4 @@ const ProfileForm = (props) => {
   );
 };
 
-export default ProfileForm;
+export default WorkForm;

@@ -25,6 +25,8 @@ db.once("open", () => console.log("We have connected to MongoDB"));
 
 const userRouter = require("./routes/users");
 const profileRouter = require("./routes/profilesRoute");
+const educationRouter = require("./routes/educationRoute");
+const workRouter = require("./routes/workRoute");
 // var indexRouter = require("./index");
 // var homeRouter = require("./routes/home");
 
@@ -51,7 +53,7 @@ require("./passportConfig")(passport);
 
 // app.use("/", authRouter); //routing it to authRouter
 app.use("/user", userRouter);
-app.use("/", profileRouter);
+app.use("/", profileRouter, educationRouter, workRouter);
 
 app.listen(4000, () => {
   console.log("Server has started");

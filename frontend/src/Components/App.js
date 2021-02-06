@@ -8,6 +8,8 @@ import Navbar from "./Navbar";
 import Home from "./Home";
 import Profile from "./Profile";
 import ProfileForm from "./ProfileForm";
+import EducationForm from "./EducationForm";
+import WorkForm from "./WorkForm";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
       <Route path="/register" component={Register} />
       <Route path="/profile" component={Profile} />
       <Route path="/newprofile" component={ProfileForm} />
+      <Route path="/neweducation" component={EducationForm} />
+      <Route path="/newwork" component={WorkForm} />
     </Router>
   );
 }
