@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Axios from "axios";
 import { Link, Redirect } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
@@ -133,6 +133,7 @@ const Profile = (props) => {
 
   const onChangeProfile = (e) => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
+    console.log(profile.isFaculty);
   };
 
   const onChangeEducation = (e) => {
@@ -148,11 +149,61 @@ const Profile = (props) => {
   const editEducationForm = (e) => {
     setEditEducationClicked(true);
     console.log("running education edit form");
+    const educationId = e.target.value;
+    const url = "http://localhost:4000/education/";
+    const dynamicUrl = url + educationId;
+    console.log(educationId);
+    console.log(dynamicUrl);
+    Axios({
+      method: "GET",
+      url: dynamicUrl,
+    }).then((data) => {
+      console.log(data);
+      if (data.data === null) {
+        console.log("No Education Details found");
+      } else {
+        setEditEducation({
+          ...editEducation,
+          _id: data.data._id,
+          collegeName: data.data.collegeName,
+          collegeLocation: data.data.collegeLocation,
+          courseName: data.data.courseName,
+          username: data.data.username,
+          graduationDate: data.data.graduationDate,
+          currentCollege: data.data.currentCollege,
+        });
+      }
+    });
   };
 
   const editWorkForm = (e) => {
     setEditWorkClicked(true);
     console.log("running work edit form");
+    const workId = e.target.value;
+    const url = "http://localhost:4000/work/";
+    const dynamicUrl = url + workId;
+    console.log(workId);
+    console.log(dynamicUrl);
+    Axios({
+      method: "GET",
+      url: dynamicUrl,
+    }).then((data) => {
+      console.log(data);
+      if (data.data === null) {
+        console.log("No Work Details found");
+      } else {
+        setEditWork({
+          ...editWork,
+          _id: data.data._id,
+          position: data.data.position,
+          employerName: data.data.employerName,
+          startDate: data.data.startDate,
+          endDate: data.data.endDate,
+          username: data.data.username,
+          currentJob: data.data.currentJob,
+        });
+      }
+    });
   };
 
   const editProfileForm = (e) => {
@@ -161,7 +212,7 @@ const Profile = (props) => {
   };
 
   const onSubmitEducation = (e) => {
-    const educationId = e.target.value;
+    const educationId = editEducation._id;
     const url = "http://localhost:4000/education/";
     const dynamicUrl = url + educationId;
     console.log(educationId);
@@ -186,7 +237,7 @@ const Profile = (props) => {
   };
 
   const onSubmitWork = (e) => {
-    const workId = e.target.value;
+    const workId = editWork._id;
     const url = "http://localhost:4000/work/";
     const dynamicUrl = url + workId;
     console.log(workId);
@@ -286,8 +337,6 @@ const Profile = (props) => {
       ) : (
         <div>
           <h2>{!user.username ? null : <h2>Username: {user.username}</h2>}</h2>
-          {/* {getProfile} */}
-          <h5>ID: {profile.id}</h5>
           <h5>First Name: {profile.firstName}</h5>
           <h5>Last Name: {profile.lastName}</h5>
           <h5>Email: {profile.email}</h5>
@@ -296,7 +345,19 @@ const Profile = (props) => {
           <h5>IQ: {profile.IQ}</h5>
           <h5>About Me: {profile.about}</h5>
           {!profile.isFaculty ? <h3>Student</h3> : <h3>Education Faculty</h3>}
-          <div>
+          <button className="btn btn-danger btn-lg" onClick={deleteProfile}>
+            Delete Profile
+          </button>
+          <Link to="#profileForm">
+            <button
+              className="btn btn-lg btn-primary"
+              onClick={editProfileForm}
+            >
+              <a href="#profileForm"></a>
+              Edit Profile
+            </button>
+          </Link>
+          <div id="profileForm">
             {!editProfileClicked ? null : (
               <div>
                 <form onSubmit={onSubmitProfile}>
@@ -410,6 +471,7 @@ const Profile = (props) => {
                         name="isFaculty"
                         id="Yes"
                         value="true"
+                        onClick={onChangeProfile}
                         onChange={onChangeProfile}
                       />
                       <label className="form-check-label" htmlFor="Yes">
@@ -423,8 +485,8 @@ const Profile = (props) => {
                         name="isFaculty"
                         id="No"
                         value="false"
+                        onClick={onChangeProfile}
                         onChange={onChangeProfile}
-                        checked
                       />
                       <label className="form-check-label" htmlFor="No">
                         No
@@ -433,6 +495,9 @@ const Profile = (props) => {
                   </div>
                   <button className="btn btn-lg btn-primary btn-block">
                     Submit
+                  </button>
+                  <button className="btn btn-lg btn-secondary btn-block">
+                    Cancel
                   </button>
                 </form>
               </div>
@@ -445,7 +510,6 @@ const Profile = (props) => {
           <div>
             {education.map((item) => (
               <div className="card border-dark bg-light mb-3">
-                <h4 className="item">ID: {item._id}</h4>
                 <h4 className="item" value={item.collegeName}>
                   College Name: {item.collegeName}
                 </h4>
@@ -456,7 +520,7 @@ const Profile = (props) => {
                   Course Name: {item.courseName}
                 </h4>
                 <h4 className="item" value={item.graduationDate}>
-                  Graduation Date: {item.graduationDate}
+                  Graduation Date: {item.graduationDate.slice(0, 10)}
                 </h4>
                 {!item.currentCollege ? null : (
                   <h4 className="item" value={item.currentCollege}>
@@ -466,6 +530,7 @@ const Profile = (props) => {
                 <button
                   className="btn btn-primary"
                   onClick={editEducationForm}
+                  href="#educationForm"
                   value={item._id}
                 >
                   Edit
@@ -477,83 +542,84 @@ const Profile = (props) => {
                 >
                   Delete
                 </button>
-                {!editEducationClicked ? null : (
-                  <div>
-                    <form>
-                      <input
-                        placeholder={item.collegeName}
-                        onChange={onChangeEducation}
-                        name="collegeName"
-                        type="text"
-                        className="form-control"
-                        required
-                      />
-                      <input
-                        placeholder={item.collegeLocation}
-                        onChange={onChangeEducation}
-                        name="collegeLocation"
-                        type="text"
-                        className="form-control"
-                        required
-                      />
-                      <input
-                        placeholder={item.courseName}
-                        onChange={onChangeEducation}
-                        name="courseName"
-                        type="text"
-                        className="form-control"
-                        required
-                      />
-                      <input
-                        placeholder={item.graduationDate}
-                        onChange={onChangeEducation}
-                        name="graduationDate"
-                        type="date"
-                        className="form-control"
-                        required
-                      />
-                      <label htmlFor="currentCollege" className="form-label">
-                        Is this your current college:{" "}
-                      </label>
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="currentCollege"
-                          id="Yes"
-                          value="true"
-                          onChange={onChangeEducation}
-                        />
-                        <label className="form-check-label" htmlFor="Yes">
-                          Yes
-                        </label>
-                      </div>
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="currentCollege"
-                          id="No"
-                          value="false"
-                          onChange={onChangeEducation}
-                          checked
-                        />
-                        <label className="form-check-label" htmlFor="No">
-                          No
-                        </label>
-                      </div>
-                      <button
-                        className="btn btn-lg btn-primary"
-                        onClick={onSubmitEducation}
-                        value={item._id}
-                      >
-                        Submit
-                      </button>
-                    </form>
-                  </div>
-                )}
               </div>
             ))}
+            {!editEducationClicked ? null : (
+              <div id="educationForm">
+                <form onSubmit={onSubmitEducation}>
+                  <h2>Edit Education Details</h2>
+                  <input
+                    placeholder={editEducation.collegeName}
+                    onChange={onChangeEducation}
+                    name="collegeName"
+                    type="text"
+                    className="form-control"
+                    value={editEducation.collegeName}
+                    required
+                  />
+                  <input
+                    placeholder={editEducation.collegeLocation}
+                    onChange={onChangeEducation}
+                    name="collegeLocation"
+                    type="text"
+                    className="form-control"
+                    value={editEducation.collegeLocation}
+                    required
+                  />
+                  <input
+                    placeholder={editEducation.courseName}
+                    onChange={onChangeEducation}
+                    name="courseName"
+                    type="text"
+                    className="form-control"
+                    value={editEducation.courseName}
+                    required
+                  />
+                  <input
+                    placeholder={editEducation.graduationDate.slice(0, 10)}
+                    onChange={onChangeEducation}
+                    name="graduationDate"
+                    type="date"
+                    className="form-control"
+                    value={editEducation.graduationDate.slice(0, 10)}
+                    required
+                  />
+                  <label htmlFor="currentCollege" className="form-label">
+                    Is this your current college:{" "}
+                  </label>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="currentCollege"
+                      id="Yes"
+                      value="true"
+                      onClick={onChangeEducation}
+                      onChange={onChangeEducation}
+                    />
+                    <label className="form-check-label" htmlFor="Yes">
+                      Yes
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="currentCollege"
+                      id="No"
+                      value="false"
+                      onChange={onChangeEducation}
+                      onClick={onChangeEducation}
+                    />
+                    <label className="form-check-label" htmlFor="No">
+                      No
+                    </label>
+                  </div>
+                  <button className="btn btn-lg btn-primary">Submit</button>
+                  <button className="btn btn-lg btn-secondary">Cancel</button>
+                </form>
+              </div>
+            )}
           </div>
           <h2>Work Details</h2>
           <Link to="/newwork">
@@ -563,12 +629,15 @@ const Profile = (props) => {
             <div className="card border-dark bg-light mb-3">
               <h4 className="item">Position: {item.position}</h4>
               <h4 className="item">Employer Name: {item.employerName}</h4>
-              <h4 className="item">Start Date: {item.startDate}</h4>
-              <h4 className="item">End Date: {item.endDate}</h4>
+              <h4 className="item">
+                Start Date: {item.startDate.slice(0, 10)}
+              </h4>
+              <h4 className="item">End Date: {item.endDate.slice(0, 10)}</h4>
               {!item.currentJob ? null : <h4 className="item">Current Job</h4>}
               <button
                 className="btn btn-primary"
                 onClick={editWorkForm}
+                href="#workForm"
                 value={item._id}
               >
                 Edit
@@ -580,89 +649,84 @@ const Profile = (props) => {
               >
                 Delete
               </button>
-              {!editWorkClicked ? null : (
-                <div>
-                  <form>
-                    <input
-                      placeholder={item.position}
-                      onChange={onChangeWork}
-                      name="position"
-                      type="text"
-                      className="form-control"
-                      required
-                    />
-                    <input
-                      placeholder={item.employerName}
-                      onChange={onChangeWork}
-                      name="employerName"
-                      type="text"
-                      className="form-control"
-                      required
-                    />
-                    <input
-                      placeholder={item.startDate}
-                      onChange={onChangeWork}
-                      name="startDate"
-                      type="date"
-                      className="form-control"
-                      required
-                    />
-                    <input
-                      placeholder={item.endDate}
-                      onChange={onChangeWork}
-                      name="endDate"
-                      type="date"
-                      className="form-control"
-                      required
-                    />
-                    <label htmlFor="currentCollege" className="form-label">
-                      Is this your current job:{" "}
-                    </label>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="currentJob"
-                        id="Yes"
-                        value="true"
-                        onChange={onChangeWork}
-                      />
-                      <label className="form-check-label" htmlFor="Yes">
-                        Yes
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="currentJob"
-                        id="No"
-                        value="false"
-                        onChange={onChangeWork}
-                        checked
-                      />
-                      <label className="form-check-label" htmlFor="No">
-                        No
-                      </label>
-                    </div>
-                    <button
-                      className="btn btn-lg btn-primary"
-                      onClick={onSubmitWork}
-                      value={item._id}
-                    >
-                      Submit
-                    </button>
-                  </form>
-                </div>
-              )}
             </div>
           ))}
-          <button className="btn btn-danger btn-lg" onClick={deleteProfile}>
-            Delete Profile
-          </button>
-          <button className="btn btn-lg btn-primary" onClick={editProfileForm}>
-            Edit Profile
-          </button>
+          {!editWorkClicked ? null : (
+            <div id="workForm">
+              <form onSubmit={onSubmitWork}>
+                <h2>Edit Work Details</h2>
+                <input
+                  placeholder={editWork.position}
+                  onChange={onChangeWork}
+                  name="position"
+                  type="text"
+                  className="form-control"
+                  value={editWork.position}
+                  required
+                />
+                <input
+                  placeholder={editWork.employerName}
+                  onChange={onChangeWork}
+                  name="employerName"
+                  type="text"
+                  className="form-control"
+                  value={editWork.employerName}
+                  required
+                />
+                <input
+                  placeholder={editWork.startDate.slice(0, 10)}
+                  onChange={onChangeWork}
+                  name="startDate"
+                  type="date"
+                  className="form-control"
+                  value={editWork.startDate.slice(0, 10)}
+                  required
+                />
+                <input
+                  placeholder={editWork.endDate.slice(0, 10)}
+                  onChange={onChangeWork}
+                  name="endDate"
+                  type="date"
+                  className="form-control"
+                  value={editWork.endDate.slice(0, 10)}
+                  required
+                />
+                <label htmlFor="currentCollege" className="form-label">
+                  Is this your current job:{" "}
+                </label>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="currentJob"
+                    id="Yes"
+                    value="true"
+                    onChange={onChangeWork}
+                    onClick={onChangeWork}
+                  />
+                  <label className="form-check-label" htmlFor="Yes">
+                    Yes
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="currentJob"
+                    id="No"
+                    value="false"
+                    onChange={onChangeWork}
+                    onClick={onChangeWork}
+                  />
+                  <label className="form-check-label" htmlFor="No">
+                    No
+                  </label>
+                </div>
+                <button className="btn btn-lg btn-primary">Submit</button>
+                <button className="btn btn-lg btn-secondary">Cancel</button>
+              </form>
+            </div>
+          )}
           {message ? <Message message={message} /> : null}
         </div>
       )}

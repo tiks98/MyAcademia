@@ -33,7 +33,11 @@ const ProfileForm = (props) => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
   };
 
-  const resetForm = () => {
+  const reloadPage = () => {
+    window.location.reload(false);
+  };
+
+  const resetForm = (e) => {
     setProfile({
       firstName: "",
       lastName: "",
@@ -206,6 +210,12 @@ const ProfileForm = (props) => {
           </div>
         </div>
         <button className="btn btn-lg btn-primary btn-block">Submit</button>
+        <button
+          className="btn btn-lg btn-secondary btn-block"
+          onClick={reloadPage}
+        >
+          Cancel
+        </button>
       </form>
       {message ? <Message message={message} /> : null}
     </div>
