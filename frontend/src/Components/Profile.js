@@ -3,6 +3,7 @@ import Axios from "axios";
 import { Link, Redirect } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
 import Message from "./Message";
+import defaultProfilePhoto from "../Images/default_profile_picture.png";
 
 const Profile = (props) => {
   const { isAuthenticated, user, googleLogin } = useContext(AuthContext);
@@ -13,6 +14,7 @@ const Profile = (props) => {
   const [message, setMessage] = useState(null);
   const [profile, setProfile] = useState({
     id: "",
+    photoUrl: "",
     firstName: "",
     lastName: "",
     username: "",
@@ -60,6 +62,7 @@ const Profile = (props) => {
         setProfile({
           ...profile,
           id: data.data._id,
+          photoUrl: data.data.photoUrl,
           firstName: data.data.firstName,
           lastName: data.data.lastName,
           username: data.data.username,
@@ -234,6 +237,7 @@ const Profile = (props) => {
       setMessage(message);
       console.log(message);
     });
+    reloadPage();
   };
 
   const onSubmitWork = (e) => {
@@ -274,6 +278,7 @@ const Profile = (props) => {
         lastName: profile.lastName,
         username: user.username,
         email: profile.email,
+        photoUrl: profile.photoUrl,
         collegeName: profile.collegeName,
         location: profile.location,
         IQ: profile.IQ,
@@ -336,6 +341,19 @@ const Profile = (props) => {
         </div>
       ) : (
         <div>
+          {!profile.photoUrl ? (
+            <img
+              src={defaultProfilePhoto}
+              alt="defaultProfilePhoto"
+              style={{ width: "200px", height: "200px" }}
+            ></img>
+          ) : (
+            <img
+              src={profile.photoUrl}
+              style={{ width: "200px", height: "200px" }}
+              alt="profilePhoto"
+            ></img>
+          )}
           <h2>{!user.username ? null : <h2>Username: {user.username}</h2>}</h2>
           <h5>First Name: {profile.firstName}</h5>
           <h5>Last Name: {profile.lastName}</h5>
@@ -362,6 +380,19 @@ const Profile = (props) => {
               <div>
                 <form onSubmit={onSubmitProfile}>
                   <h1>Edit Your Profile</h1>
+                  <div className="mb-3">
+                    <label htmlFor="photoUrl" className="form-label">
+                      Profile Photo:{" "}
+                    </label>
+                    <input
+                      placeholder="Please Enter a URL"
+                      onChange={onChangeProfile}
+                      name="photoUrl"
+                      type="url"
+                      className="form-control"
+                      value={profile.photoUrl}
+                    />
+                  </div>
                   <div className="mb-3">
                     <label htmlFor="firstName" className="form-label">
                       First Name:{" "}

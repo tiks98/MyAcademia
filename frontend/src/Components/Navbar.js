@@ -55,6 +55,15 @@ const Navbar = (props) => {
         <Link to="/profile">
           <li className="nav-item nav-link">Profile</li>
         </Link>
+        <Link to="/messaging">
+          <li className="nav-item nav-link">Messaging</li>
+        </Link>
+        <Link to="/notification">
+          <li className="nav-item nav-link">Notification</li>
+        </Link>
+        <Link to="/challenge">
+          <li className="nav-item nav-link">Challenge</li>
+        </Link>
         {!googleLogin ? (
           <button
             type="button"
@@ -95,9 +104,6 @@ const Navbar = (props) => {
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             {!isAuthenticated ? unauthenticatedNavbar() : authenticatedNavbar()}
           </ul>
-          <span className="navbar-text">
-            Navbar text with an inline element
-          </span>
         </div>
       </div>
     </nav>

@@ -8,6 +8,7 @@ const ProfileForm = (props) => {
   const { isAuthenticated, user } = useContext(AuthContext);
 
   const [profile, setProfile] = useState({
+    photoUrl: "",
     firstName: "",
     lastName: "",
     username: "",
@@ -39,6 +40,7 @@ const ProfileForm = (props) => {
 
   const resetForm = (e) => {
     setProfile({
+      photoUrl: "",
       firstName: "",
       lastName: "",
       username: "",
@@ -56,6 +58,7 @@ const ProfileForm = (props) => {
     Axios({
       method: "POST",
       data: {
+        photoUrl: profile.photoUrl,
         firstName: profile.firstName,
         lastName: profile.lastName,
         username: user.username,
@@ -110,6 +113,18 @@ const ProfileForm = (props) => {
             type="text"
             className="form-control"
             required
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="photoUrl" className="form-label">
+            Profile Photo:{" "}
+          </label>
+          <input
+            placeholder="Please Enter a URL"
+            onChange={onChange}
+            name="photoUrl"
+            type="text"
+            className="form-control"
           />
         </div>
         <label htmlFor="username" className="form-label form-control">

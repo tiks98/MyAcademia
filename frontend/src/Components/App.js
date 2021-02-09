@@ -10,6 +10,9 @@ import Profile from "./Profile";
 import ProfileForm from "./ProfileForm";
 import EducationForm from "./EducationForm";
 import WorkForm from "./WorkForm";
+import Messaging from "./Messaging";
+import Notification from "./Notification";
+import Challenge from "./Challenge";
 
 function App() {
   return (
@@ -22,6 +25,9 @@ function App() {
       <Route path="/newprofile" component={ProfileForm} />
       <Route path="/neweducation" component={EducationForm} />
       <Route path="/newwork" component={WorkForm} />
+      <Route path="/messaging" component={Messaging} />
+      <Route path="/notification" component={Notification} />
+      <Route path="/challenge" component={Challenge} />
     </Router>
   );
 }

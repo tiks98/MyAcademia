@@ -17,6 +17,9 @@ const profile = new mongoose.Schema({
     type: String,
     required: true,
   },
+  photoUrl: {
+    type: String,
+  },
   collegeName: {
     type: String,
   },
