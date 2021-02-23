@@ -27,6 +27,8 @@ const userRouter = require("./routes/users");
 const profileRouter = require("./routes/profilesRoute");
 const educationRouter = require("./routes/educationRoute");
 const workRouter = require("./routes/workRoute");
+const searchRouter = require("./routes/searchRoute");
+const friendshipRouter = require("./routes/friendshipRoute");
 // var indexRouter = require("./index");
 // var homeRouter = require("./routes/home");
 
@@ -53,7 +55,15 @@ require("./passportConfig")(passport);
 
 // app.use("/", authRouter); //routing it to authRouter
 app.use("/user", userRouter);
-app.use("/", profileRouter, educationRouter, workRouter);
+app.use(
+  "/",
+  profileRouter,
+  educationRouter,
+  workRouter,
+  searchRouter,
+  friendshipRouter
+);
+// app.use("/search", searchRouter);
 
 app.listen(4000, () => {
   console.log("Server has started");

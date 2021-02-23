@@ -52,7 +52,7 @@ const Navbar = (props) => {
         <Link to="/">
           <li className="nav-item nav-link">Home</li>
         </Link>
-        <Link to="/profile">
+        <Link to="/myprofile">
           <li className="nav-item nav-link">Profile</li>
         </Link>
         <Link to="/messaging">
@@ -63,6 +63,9 @@ const Navbar = (props) => {
         </Link>
         <Link to="/challenge">
           <li className="nav-item nav-link">Challenge</li>
+        </Link>
+        <Link to="/search">
+          <li className="nav-item nav-link">Search</li>
         </Link>
         {!googleLogin ? (
           <button

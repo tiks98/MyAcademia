@@ -36,6 +36,7 @@ const profile = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  friends: [String],
   created_date: {
     type: Date,
     default: Date.now,
