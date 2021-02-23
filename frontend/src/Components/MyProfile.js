@@ -6,8 +6,12 @@ import Message from "./Message";
 import defaultProfilePhoto from "../Images/default_profile_picture.png";
 
 const MyProfile = (props) => {
-  const { isAuthenticated, user, googleLogin } = useContext(AuthContext);
+  const { isAuthenticated, user, googleLogin, myprofileId } = useContext(
+    AuthContext
+  );
+  const authContext = useContext(AuthContext);
   const [haveProfile, setHaveProfile] = useState(false);
+  // const [myprofileId, setMyProfileId] = useState(null);
   const [editEducationClicked, setEditEducationClicked] = useState(false);
   const [editWorkClicked, setEditWorkClicked] = useState(false);
   const [editProfileClicked, setEditProfileClicked] = useState(false);
@@ -110,6 +114,8 @@ const MyProfile = (props) => {
     });
   }, []);
 
+  authContext.setMyProfileId(profile.id);
+  console.log(myprofileId);
   const reloadPage = () => {
     window.location.reload(false);
   };
