@@ -77,6 +77,22 @@ export const UpdateProfile = (req, res) => {
   );
 };
 
+export const RemoveFriend = (req, res) => {
+  Profile.findOneAndUpdate(
+    { _id: req.params.ProfileId },
+    { $pull: { friends: req.query.friend } },
+    { new: true },
+    (err, Profile) => {
+      if (err) {
+        res.status(500).json({
+          message: { msgBody: "Error has Occured", msgError: true },
+        });
+      }
+      res.json(Profile);
+    }
+  );
+};
+
 export const deleteProfile = (req, res) => {
   Profile.remove({ _id: req.params.ProfileId }, (err, Profile) => {
     if (err) {

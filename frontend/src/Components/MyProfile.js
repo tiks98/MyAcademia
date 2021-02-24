@@ -4,6 +4,8 @@ import { Link, Redirect } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
 import Message from "./Message";
 import defaultProfilePhoto from "../Images/default_profile_picture.png";
+import Profile from "./Profile";
+import AuthService from "../Services/AuthService";
 
 const MyProfile = (props) => {
   const { isAuthenticated, user, googleLogin, myprofileId } = useContext(
@@ -28,6 +30,7 @@ const MyProfile = (props) => {
     IQ: 0,
     about: "",
     isFaculty: false,
+    friends: [],
   });
   const [education, setEducation] = useState([]);
   const [work, setWork] = useState([]);
@@ -76,6 +79,7 @@ const MyProfile = (props) => {
           IQ: data.data.IQ,
           about: data.data.about,
           isFaculty: data.data.isFaculty,
+          friends: data.data.friends,
         });
         setHaveProfile(true);
       }
@@ -114,8 +118,6 @@ const MyProfile = (props) => {
     });
   }, []);
 
-  authContext.setMyProfileId(profile.id);
-  console.log(myprofileId);
   const reloadPage = () => {
     window.location.reload(false);
   };
@@ -369,6 +371,16 @@ const MyProfile = (props) => {
           <h5>IQ: {profile.IQ}</h5>
           <h5>About Me: {profile.about}</h5>
           {!profile.isFaculty ? <h3>Student</h3> : <h3>Education Faculty</h3>}
+          <h4>Friends List:</h4>
+          {profile.friends.length === 0 ? null : (
+            <div>
+              {profile.friends.map((friend) => (
+                <div>
+                  <h5>Friend's Username: {friend}</h5>
+                </div>
+              ))}
+            </div>
+          )}
           <button className="btn btn-danger btn-lg" onClick={deleteProfile}>
             Delete Profile
           </button>

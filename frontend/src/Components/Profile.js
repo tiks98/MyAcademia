@@ -11,8 +11,12 @@ const Profile = (props) => {
   const { isAuthenticated, user, googleLogin, myprofileId } = useContext(
     AuthContext
   );
+  // const {profile} = useContext(ProfileContext)
   const [haveProfile, setHaveProfile] = useState(false);
   const [message, setMessage] = useState(null);
+  const [myProfileID, setMyProfileId] = useState({
+    mypid: "",
+  });
   const [profile, setProfile] = useState({
     id: "",
     photoUrl: "",
@@ -67,10 +71,26 @@ const Profile = (props) => {
         });
       }
     });
+    Axios({
+      method: "GET",
+      url: url,
+      params: {
+        username: user.username,
+      },
+    }).then((data) => {
+      if (data.data === null) {
+        console.log("No Profile data found");
+      } else {
+        setMyProfileId({
+          ...myprofileId,
+          mypid: data.data._id,
+        });
+      }
+    });
   }, []);
 
   const getFriendshipStatus = (e) => {
-    if (i == 0) {
+    if (i === 0) {
       Axios({
         method: "GET",
         url: "http://localhost:4000/getfriends/status",
@@ -90,7 +110,7 @@ const Profile = (props) => {
           setFriends(item);
         }
       });
-      if (friends.requester != user.username) {
+      if (friends.requester !== user.username) {
         Axios({
           method: "GET",
           url: "http://localhost:4000/getfriends/status",
@@ -110,6 +130,7 @@ const Profile = (props) => {
             setFriends(item);
           }
         });
+        console.log("My Profile Id: " + myprofileId);
       }
       Axios({
         method: "GET",
@@ -186,6 +207,7 @@ const Profile = (props) => {
       //   reloadPage();
       // }, 2000);
     });
+    // if(friends.requester === user.username)
     const profileId = profile.id;
     const url2 = "http://localhost:4000/profile/";
     const requesterUrl = url2 + profileId;
@@ -194,20 +216,20 @@ const Profile = (props) => {
     Axios({
       method: "put",
       data: {
-        friends: friends.requester,
+        friends: friends.recipient,
       },
       url: requesterUrl,
     }).then((data) => {
       console.log(data.data);
     });
-    const recipientId = myprofileId;
+    const recipientId = myProfileID.mypid;
     console.log(recipientId);
     const recipientUrl = url2 + recipientId;
     console.log(recipientUrl);
     Axios({
       method: "put",
       data: {
-        friends: friends.recipient,
+        friends: friends.requester,
       },
       url: recipientUrl,
     }).then((data) => {
@@ -230,6 +252,33 @@ const Profile = (props) => {
         setMessage(message);
         console.log(message);
         reloadPage();
+      });
+      const profileId = profile.id;
+      const staticurl = "http://localhost:4000/rffprofile/";
+      const requesterUrl = staticurl + profileId;
+      console.log(profileId);
+      console.log(requesterUrl);
+      Axios({
+        method: "put",
+        params: {
+          friend: friends.recipient,
+        },
+        url: requesterUrl,
+      }).then((data) => {
+        console.log(data.data);
+      });
+      const recipientId = myProfileID.mypid;
+      console.log(recipientId);
+      const recipientUrl = staticurl + recipientId;
+      console.log(recipientUrl);
+      Axios({
+        method: "put",
+        params: {
+          friend: friends.requester,
+        },
+        url: recipientUrl,
+      }).then((data) => {
+        console.log(data.data);
       });
     }
   };
@@ -261,6 +310,12 @@ const Profile = (props) => {
             {!profile.username ? null : <h2>Username: {profile.username}</h2>}
             {!profile.username ? null : getFriendshipStatus()}
           </h2>
+          {/* <h3>
+            {!myprofileId ? null : <h3>My Profile Id: {myprofileId} </h3>}
+          </h3> */}
+          <h3>
+            {!myProfileID ? null : <h3>My Profile Id: {myProfileID.mypid}</h3>}
+          </h3>
           <h5>First Name: {profile.firstName}</h5>
           <h5>Last Name: {profile.lastName}</h5>
           <h5>Email: {profile.email}</h5>
@@ -319,55 +374,10 @@ const Profile = (props) => {
           )}
           {message ? <Message message={message} /> : null}
           <div>
-            {educations.map((education) => {
-              <div
-                className="card border-dark bg-light mb-3"
-                key={education._id}
-              >
-                <h4 className="item" value={education.collegeName}>
-                  College Name: {education.collegeName}
-                </h4>
-                <h4 className="item" value={education.collegeLocation}>
-                  College Location: {education.collegeLocation}
-                </h4>
-                <h4 className="item" value={education.courseName}>
-                  Course Name: {education.courseName}
-                </h4>
-                <h4 className="item" value={education.graduationDate}>
-                  Graduation Date: {education.graduationDate.slice(0, 10)}
-                </h4>
-                {!education.currentCollege ? null : (
-                  <h4 className="item" value={education.currentCollege}>
-                    Current College
-                  </h4>
-                )}
-              </div>;
-            })}
-            {works.map((work) => {
-              <div className="card border-dark bg-light mb-3" key={work._id}>
-                <h4 className="item" value={work.position}>
-                  College Name: {work.position}
-                </h4>
-                <h4 className="item" value={work.employerName}>
-                  College Location: {work.employerName}
-                </h4>
-                <h4 className="item">
-                  Start Date: {work.startDate.slice(0, 10)}
-                </h4>
-                {!work.endDate ? null : (
-                  <h4 className="item">
-                    End Date: {work.endDate.slice(0, 10)}
-                  </h4>
-                )}
-                {!work.currentJob ? null : (
-                  <h4 className="item">Current Job</h4>
-                )}
-              </div>;
-            })}
             {!isFriends ? <h1>not friends</h1> : <h1>friends</h1>}
             {!isFriends ? null : (
               <div>
-                {educations.map((education) => {
+                {educations.map((education) => (
                   <div
                     className="card border-dark bg-light mb-3"
                     key={education._id}
@@ -389,8 +399,32 @@ const Profile = (props) => {
                         Current College
                       </h4>
                     )}
-                  </div>;
-                })}
+                  </div>
+                ))}
+                {works.map((work) => (
+                  <div
+                    className="card border-dark bg-light mb-3"
+                    key={work._id}
+                  >
+                    <h4 className="item" value={work.position}>
+                      College Name: {work.position}
+                    </h4>
+                    <h4 className="item" value={work.employerName}>
+                      College Location: {work.employerName}
+                    </h4>
+                    <h4 className="item">
+                      Start Date: {work.startDate.slice(0, 10)}
+                    </h4>
+                    {!work.endDate ? null : (
+                      <h4 className="item">
+                        End Date: {work.endDate.slice(0, 10)}
+                      </h4>
+                    )}
+                    {!work.currentJob ? null : (
+                      <h4 className="item">Current Job</h4>
+                    )}
+                  </div>
+                ))}
               </div>
             )}
           </div>
