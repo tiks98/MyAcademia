@@ -29,6 +29,7 @@ const Profile = (props) => {
     IQ: 0,
     about: "",
     isFaculty: false,
+    friends: [],
   });
   const [educations, setEducation] = useState([]);
   const [works, setWork] = useState([]);
@@ -68,6 +69,7 @@ const Profile = (props) => {
           IQ: data.data.IQ,
           about: data.data.about,
           isFaculty: data.data.isFaculty,
+          friends: data.data.friends,
         });
       }
     });
@@ -209,14 +211,14 @@ const Profile = (props) => {
     });
     // if(friends.requester === user.username)
     const profileId = profile.id;
-    const url2 = "http://localhost:4000/profile/";
+    const url2 = "http://localhost:4000/addfprofile/";
     const requesterUrl = url2 + profileId;
     console.log(profileId);
     console.log(requesterUrl);
     Axios({
       method: "put",
-      data: {
-        friends: friends.recipient,
+      params: {
+        friend: friends.recipient,
       },
       url: requesterUrl,
     }).then((data) => {
@@ -228,8 +230,8 @@ const Profile = (props) => {
     console.log(recipientUrl);
     Axios({
       method: "put",
-      data: {
-        friends: friends.requester,
+      params: {
+        friend: friends.requester,
       },
       url: recipientUrl,
     }).then((data) => {
@@ -324,6 +326,19 @@ const Profile = (props) => {
           <h5>IQ: {profile.IQ}</h5>
           <h5>About Me: {profile.about}</h5>
           {!profile.isFaculty ? <h3>Student</h3> : <h3>Education Faculty</h3>}
+          {!isFriends ? null : (
+            <div>
+              {profile.friends.length === 0 ? null : (
+                <div>
+                  {profile.friends.map((friend) => (
+                    <div>
+                      <h5>Friend's Username: {friend}</h5>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
           {!isFriends ? (
             <div>
               {friends.status === 1 ? (

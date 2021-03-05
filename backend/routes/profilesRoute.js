@@ -9,6 +9,7 @@ const {
   deleteProfile,
   getProfilewithUsername,
   RemoveFriend,
+  AddFriendInProfile,
 } = require("../controllers/profileController");
 const router = express.Router();
 
@@ -21,6 +22,8 @@ router.get("/profile/:ProfileId", getProfilewithID);
 router.get("/profile", getProfilewithUsername);
 
 router.put("/profile/:ProfileId", UpdateProfile);
+
+router.put("/addfprofile/:ProfileId", AddFriendInProfile);
 
 router.put("/rffprofile/:ProfileId", RemoveFriend);
 
