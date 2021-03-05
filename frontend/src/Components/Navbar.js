@@ -15,9 +15,14 @@ const Navbar = (props) => {
   } = useContext(AuthContext);
 
   const onLogoutSuccess = (res) => {
+    AuthService.logout().then((data) => {
+      if (data.success) {
+        setUser(data.user);
+        setIsAuthenticated(false);
+        setGoogleLogin(false);
+      }
+    });
     alert("Logout Successful");
-    setIsAuthenticated(false);
-    setGoogleLogin(false);
   };
 
   const onFailure = () => {

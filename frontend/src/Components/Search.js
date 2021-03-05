@@ -9,6 +9,8 @@ import defaultProfilePhoto from "../Images/default_profile_picture.png";
 const Search = (props) => {
   const { isAuthenticated, user, googleLogin } = useContext(AuthContext);
   const [Query, setQuery] = useState(null);
+  const [location, setLocation] = useState(false);
+  const [firstName, setFirstName] = useState(false);
   const [loading, setLoading] = useState(false);
   const [profiles, setProfiles] = useState([]);
   const [profile, setProfile] = useState({
@@ -28,6 +30,20 @@ const Search = (props) => {
   const onChange = (e) => {
     e.preventDefault();
     setQuery(e.target.value);
+  };
+
+  const locationSelected = (e) => {
+    e.preventDefault();
+    setLocation(true);
+    setFirstName(false);
+    console.log("Location Selected");
+  };
+
+  const firstNameSelected = (e) => {
+    e.preventDefault();
+    setFirstName(true);
+    setLocation(false);
+    console.log("First Name Selected");
   };
 
   const getAllProfile = () => {
@@ -80,29 +96,54 @@ const Search = (props) => {
     });
   };
 
-  const searchFirstName = (e) => {
-    e.preventDefault();
-    const query = Query;
-    console.log(query);
-    const url = "http://localhost:4000/search/firstName";
-    const dynamicUrl = url;
-    console.log();
-    Axios({
-      method: "GET",
-      params: {
-        firstName: query,
-      },
-      url: dynamicUrl,
-    }).then((data) => {
-      console.log(data);
-      if (data.data === null) {
-        console.log("No data found");
-      } else {
-        const item = [data.data];
-        setProfiles(item[0]);
-        console.log(profiles);
-      }
-    });
+  const searchQuery = (e) => {
+    if (location === true) {
+      e.preventDefault();
+      const query = Query;
+      console.log(query);
+      const url = "http://localhost:4000/search/location";
+      const dynamicUrl = url;
+      console.log();
+      Axios({
+        method: "GET",
+        params: {
+          location: e.target.value,
+        },
+        url: dynamicUrl,
+      }).then((data) => {
+        console.log(data);
+        if (data.data === null) {
+          console.log("No data found");
+        } else {
+          const item = [data.data];
+          setProfiles(item[0]);
+          console.log(profiles);
+        }
+      });
+    } else {
+      e.preventDefault();
+      const query = Query;
+      console.log(query);
+      const url = "http://localhost:4000/search/firstName";
+      const dynamicUrl = url;
+      console.log();
+      Axios({
+        method: "GET",
+        params: {
+          firstName: e.target.value,
+        },
+        url: dynamicUrl,
+      }).then((data) => {
+        console.log(data);
+        if (data.data === null) {
+          console.log("No data found");
+        } else {
+          const item = [data.data];
+          setProfiles(item[0]);
+          console.log(profiles);
+        }
+      });
+    }
   };
 
   return (
@@ -112,23 +153,81 @@ const Search = (props) => {
         <h1>Search for anything</h1>
       </div>
       <div>
-        <button className="btn btn-primary btn-sm" onClick={searchFirstName}>
-          Search by First Name
-        </button>
-      </div>
-      <div>
-        <form className="d-flex" onSubmit={searchFirstName}>
+        <form className="d-flex" onSubmit={searchQuery}>
           <input
             className="form-control me-2"
             type="search"
             placeholder="Search"
             aria-label="Search"
-            onChange={onChange}
+            onChange={searchQuery}
           />
           <button className="btn btn-outline-success" type="submit">
             Search
           </button>
         </form>
+      </div>
+      <div>
+        {!location ? (
+          <div>
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="flexRadioDefault"
+                id="flexRadioDefault1"
+                onSelect={locationSelected}
+                onChange={locationSelected}
+              />
+              <label className="form-check-label" for="flexRadioDefault1">
+                Location
+              </label>
+            </div>
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="flexRadioDefault"
+                id="flexRadioDefault2"
+                onSelect={firstNameSelected}
+                onChange={firstNameSelected}
+                checked
+              />
+              <label className="form-check-label" for="flexRadioDefault2">
+                First Name
+              </label>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="flexRadioDefault"
+                id="flexRadioDefault1"
+                onSelect={locationSelected}
+                onChange={locationSelected}
+                checked
+              />
+              <label className="form-check-label" for="flexRadioDefault1">
+                Location
+              </label>
+            </div>
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="flexRadioDefault"
+                id="flexRadioDefault2"
+                onSelect={firstNameSelected}
+                onChange={firstNameSelected}
+              />
+              <label className="form-check-label" for="flexRadioDefault2">
+                First Name
+              </label>
+            </div>
+          </div>
+        )}
       </div>
       <div>
         <button className="btn btn-primary" onClick={getAllProfile}>

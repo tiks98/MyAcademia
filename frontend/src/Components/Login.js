@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import Axios from "axios";
 import GoogleLogin from "react-google-login";
 import { refreshTokenSetup } from "../utils/refreshToken";
 import { AuthContext } from "../Context/AuthContext";
@@ -35,17 +36,76 @@ const Login = (props) => {
     });
   };
 
-  const responseSuccessGoogle = (res) => {
-    console.log(res.profileObj);
-    refreshTokenSetup(res);
-    authContext.setUser({
-      ...user,
-      username: res.profileObj.givenName,
-      password: res.profileObj.googleId,
-    });
-    authContext.setGoogleLogin(true);
-    authContext.setIsAuthenticated(true);
-    props.history.push("/");
+  const responseSuccessGoogle = async (res) => {
+    // res.preventDefault();
+    // console.log(res.profileObj);
+    try {
+      const GoogleUserObject = await res.profileObj;
+      console.log(GoogleUserObject);
+      if (GoogleUserObject) {
+        setUser({
+          ...user,
+          username: GoogleUserObject.givenName,
+          password: GoogleUserObject.googleId,
+        });
+        console.log(user);
+        if (user.username === "") {
+          setMessage({
+            msgBody: "Please Try Your Google Login Again",
+            msgError: true,
+          });
+        }
+      }
+      refreshTokenSetup(res);
+      Axios({
+        method: "POST",
+        data: {
+          ...user,
+          username: user.username,
+          password: user.password,
+        },
+        withCredentials: true,
+        url: "http://localhost:4000/user/register",
+      }).then((data) => {
+        const { message } = data.data;
+        console.log(message);
+        if (
+          message.msgBody === "User Already Exists" ||
+          message.msgError === true
+        ) {
+          setUser({
+            ...user,
+            username: user.username,
+            password: user.password,
+          });
+          console.log(user);
+          if (GoogleUserObject) {
+            if (user.username === "") {
+              setMessage({
+                message: {
+                  msgBody: "Please Try Again",
+                  msgError: true,
+                },
+              });
+            } else {
+              AuthService.login(user).then((data) => {
+                console.log(data);
+                const { isAuthenticated, user, message } = data;
+                if (isAuthenticated) {
+                  authContext.setUser(user);
+                  authContext.setGoogleLogin(true);
+                  authContext.setIsAuthenticated(isAuthenticated);
+                  console.log("Login Executed");
+                  props.history.push("/");
+                } else setMessage(message);
+              });
+            }
+          }
+        }
+      });
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const responseFailureGoogle = (res) => {};
