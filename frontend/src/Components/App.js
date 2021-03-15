@@ -15,6 +15,7 @@ import Notification from "./Notification";
 import Challenge from "./Challenge";
 import Search from "./Search";
 import Profile from "./Profile";
+import NewBlog from "./NewBlog";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
       <Route path="/notification" component={Notification} />
       <Route path="/challenge" component={Challenge} />
       <Route path="/search" component={Search} />
+      <Route path="/newblog" component={NewBlog} />
     </Router>
   );
 }

@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import Axios from "axios";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
+import { Link } from "react-router-dom";
+
 
 const Home = (props) => {
   const { isAuthenticated, user, googleLogin, myprofileId } = useContext(
@@ -55,6 +57,9 @@ const Home = (props) => {
     });
   }, []);
 
+  const sayHi = () => {
+    alert("Hello Guys");
+  } 
   const getMyProfile = () => {
     if (i === false) {
       authContext.setMyProfileId(profile.id);
@@ -64,6 +69,8 @@ const Home = (props) => {
       SetI(true);
     }
   };
+
+
 
   return (
     <div>
@@ -76,6 +83,7 @@ const Home = (props) => {
       {!profile.id ? null : getMyProfile()}
       {/* {getMyProfile()} */}
       <h2>{myprofileId}</h2>
+      <Link className="Links" to={`/newblog`}>Add New Blog</Link>
     </div>
   );
 };
