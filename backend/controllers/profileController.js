@@ -109,6 +109,97 @@ export const RemoveFriend = (req, res) => {
   );
 };
 
+export const GetNotificationfromProfile = (req, res) => {
+  Profile.findOne({ _id: req.params.ProfileId }, (err, Profile) => {
+    if (err) {
+      res.status(500).json({
+        message: { msgBody: "Error has Occured", msgError: true },
+      });
+    }
+    res.json(Profile.notifications);
+  });
+};
+
+export const GetNotificationfromProfileUsername = (req, res) => {
+  Profile.findOne({ username: req.query.username }, (err, Profile) => {
+    if (err) {
+      res.status(500).json({
+        message: { msgBody: "Error has Occured", msgError: true },
+      });
+    }
+    res.json(Profile.notifications);
+  });
+};
+
+export const AddNotification = (req, res) => {
+  Profile.findOneAndUpdate(
+    { _id: req.params.ProfileId },
+    { $push: { notifications: req.body } },
+    { new: true },
+    (err, Profile) => {
+      if (err) {
+        res.status(500).json({
+          message: { msgBody: "Error has Occured", msgError: true },
+        });
+      }
+      res.json(Profile);
+    }
+  );
+};
+
+export const EditNotification = (req, res) => {
+  Profile.findOneAndUpdate(
+    {
+      _id: req.params.ProfileId,
+      notifications: { $elemMatch: { _id: req.query.NotificationId } },
+    },
+    {
+      $set: { "notifications.$.readByUser": req.query.readByUser },
+    },
+    { new: true },
+    (err, Profile) => {
+      if (err) {
+        res.status(500).json({
+          message: { msgBody: "Error has Occured", msgError: true },
+        });
+      }
+      res.json(Profile.notifications);
+    }
+  );
+};
+
+export const RemoveNotification = (req, res) => {
+  Profile.findOneAndUpdate(
+    { _id: req.params.ProfileId },
+    { $pull: { notifications: { _id: req.query.NotificationId } } },
+    { new: true },
+    (err, Profile) => {
+      if (err) {
+        res.status(500).json({
+          message: { msgBody: "Error has Occured", msgError: true },
+        });
+      }
+      res.json(Profile);
+    }
+  );
+};
+
+export const RemoveAllNotificationInProfile = (req, res) => {
+  Profile.findOneAndUpdate(
+    { _id: req.params.ProfileId },
+    { $set: { notifications: [] } },
+    { new: true },
+    (err, Profile) => {
+      if (err) {
+        res.status(500).json({
+          message: { msgBody: "Error has Occured", msgError: true },
+        });
+      }
+      res.json(Profile);
+    }
+  );
+};
+
 export const deleteProfile = (req, res) => {
   Profile.remove({ _id: req.params.ProfileId }, (err, Profile) => {
     if (err) {

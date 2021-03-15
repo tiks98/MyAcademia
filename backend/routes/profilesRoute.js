@@ -10,6 +10,12 @@ const {
   getProfilewithUsername,
   RemoveFriend,
   AddFriendInProfile,
+  AddNotification,
+  RemoveNotification,
+  GetNotificationfromProfile,
+  GetNotificationfromProfileUsername,
+  RemoveAllNotificationInProfile,
+  EditNotification,
 } = require("../controllers/profileController");
 const router = express.Router();
 
@@ -26,6 +32,21 @@ router.put("/profile/:ProfileId", UpdateProfile);
 router.put("/addfprofile/:ProfileId", AddFriendInProfile);
 
 router.put("/rffprofile/:ProfileId", RemoveFriend);
+
+router.get("/getnotificationsprofile", GetNotificationfromProfileUsername);
+
+router.get("/getnotificationsprofile/:ProfileId", GetNotificationfromProfile);
+
+router.put("/addnotification/:ProfileId", AddNotification);
+
+router.put("/editnotification/:ProfileId", EditNotification);
+
+router.put("/removenotification/:ProfileId", RemoveNotification);
+
+router.put(
+  "/removeallnotifications/:ProfileId",
+  RemoveAllNotificationInProfile
+);
 
 router.delete("/profile/:ProfileId", deleteProfile);
 

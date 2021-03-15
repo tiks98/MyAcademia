@@ -29,6 +29,7 @@ const educationRouter = require("./routes/educationRoute");
 const workRouter = require("./routes/workRoute");
 const searchRouter = require("./routes/searchRoute");
 const friendshipRouter = require("./routes/friendshipRoute");
+const notificationRouter = require("./routes/notificationRoute");
 // var indexRouter = require("./index");
 // var homeRouter = require("./routes/home");
 
@@ -61,7 +62,8 @@ app.use(
   educationRouter,
   workRouter,
   searchRouter,
-  friendshipRouter
+  friendshipRouter,
+  notificationRouter
 );
 // app.use("/search", searchRouter);
 

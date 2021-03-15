@@ -2,6 +2,9 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import "./App.css";
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
+import "animate.css/animate.css";
 import Register from "./Register";
 import Login from "./Login";
 import Navbar from "./Navbar";
@@ -20,6 +23,7 @@ function App() {
   return (
     <Router>
       <Navbar />
+      <ReactNotification />
       <Route exact path="/" component={Home} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
