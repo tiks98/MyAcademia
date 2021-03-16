@@ -3,7 +3,6 @@ import Axios from "axios";
 import { Link, Redirect } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
 import NotificationPopUp from "./NotificationPopUp";
-import { store } from "react-notifications-component";
 
 const Notification = (props) => {
   const { isAuthenticated, user, googleLogin } = useContext(AuthContext);
@@ -32,6 +31,7 @@ const Notification = (props) => {
     link: "",
     created_date: "",
   });
+  const [showNotification, setShowNotification] = useState(true);
   const [i, setI] = useState(0);
   const [notificationPopUp, setNotificationPopUp] = useState({
     title: "",
@@ -111,19 +111,19 @@ const Notification = (props) => {
     window.location.reload(false);
   };
 
-  const deleteNotification = (e) => {
-    const url = "http://localhost:4000/deletenotification/";
-    const notificationId = e.target.value;
-    const dynamicUrl = url + notificationId;
-    e.preventDefault();
-    Axios({
-      method: "delete",
-      url: dynamicUrl,
-    }).then((data) => {
-      console.log(data);
-      reloadPage();
-    });
-  };
+  // const deleteNotification = (e) => {
+  //   const url = "http://localhost:4000/deletenotification/";
+  //   const notificationId = e.target.value;
+  //   const dynamicUrl = url + notificationId;
+  //   e.preventDefault();
+  //   Axios({
+  //     method: "delete",
+  //     url: dynamicUrl,
+  //   }).then((data) => {
+  //     console.log(data);
+  //     reloadPage();
+  //   });
+  // };
 
   const deleteProfileNotification = (e) => {
     const url = "http://localhost:4000/removenotification/";
@@ -160,43 +160,38 @@ const Notification = (props) => {
     });
   };
 
-  const GetDateTime = (e) => {
-    var DateTimeNow = new Date();
-    const ISOstring = DateTimeNow.toISOString();
-    const DNow = ISOstring.slice(0, 10);
-    console.log("DNow: " + DNow);
-    // console.log(ISOstring);
-    // var notiDateTime = null;
-    if (notifications.length === 0) {
-      console.log("Notification Array length: " + notifications.length);
-    } else {
-      for (let i = 0; i < notifications.length; i++) {
-        console.log(i);
-        var notiDateTime = notifications[i].created_date.slice(0, 10);
-        console.log(notifications.length);
-        console.log("notiDateTime: " + notiDateTime);
-        if (DNow === notiDateTime) {
-          console.log("Today");
-          return (
-            <div>
-              <h5>Today</h5>
-            </div>
-          );
-        } else {
-          return (
-            <div>
-              <h5>{notiDateTime}</h5>
-            </div>
-          );
-        }
-      }
-    }
-    // const notiDateTime = notifications[0].created_date.slice(0, 10);
-    // console.log(notiDateTime);
-
-    // const Time = DNow - notiDateTime;
-    // console.log(Time);
-  };
+  // const GetDateTime = (e) => {
+  //   var DateTimeNow = new Date();
+  //   const ISOstring = DateTimeNow.toISOString();
+  //   const DNow = ISOstring.slice(0, 10);
+  //   console.log("DNow: " + DNow);
+  //   // console.log(ISOstring);
+  //   // var notiDateTime = null;
+  //   if (notifications.length === 0) {
+  //     console.log("Notification Array length: " + notifications.length);
+  //   } else {
+  //     for (let i = 0; i < notifications.length; i++) {
+  //       console.log(i);
+  //       var notiDateTime = notifications[i].created_date.slice(0, 10);
+  //       console.log(notifications.length);
+  //       console.log("notiDateTime: " + notiDateTime);
+  //       if (DNow === notiDateTime) {
+  //         console.log("Today");
+  //         return (
+  //           <div>
+  //             <h5>Today</h5>
+  //           </div>
+  //         );
+  //       } else {
+  //         return (
+  //           <div>
+  //             <h5>{notiDateTime}</h5>
+  //           </div>
+  //         );
+  //       }
+  //     }
+  //   }
+  // };
 
   const readByUser = (notification) => {
     const notificationID = notification._id;
@@ -218,13 +213,12 @@ const Notification = (props) => {
     }
   };
 
-  const checkNoti = () => {
-    setNotificationPopUp({
-      ...notificationPopUp,
-      title: "This is Awesome",
-      message: "This is test",
-      type: "success",
-    });
+  const handleHideNotification = () => {
+    setShowNotification(false);
+  };
+
+  const handleShowNotification = () => {
+    setShowNotification(true);
   };
 
   return (
@@ -232,9 +226,6 @@ const Notification = (props) => {
       {!isAuthenticated ? <Redirect to="/login" /> : null}
       <h1>Welcome to Notification Page</h1>
       <h2>{!user.username ? null : user.username}</h2>
-      <button className="btn btn-primary" onClick={checkNoti}>
-        Check Notification
-      </button>
       {notificationPopUp.message !== "" ? (
         <NotificationPopUp notificationPopUp={notificationPopUp} />
       ) : null}
@@ -249,82 +240,110 @@ const Notification = (props) => {
           >
             Delete All Personal Notification
           </button>
-          {profileNotification.map((notification) => (
-            <div>
-              {notification === null ? null : (
-                <div>
-                  {notification.readByUser ? (
-                    <div
-                      key={notification._id}
-                      className="card border-dark bg-light mb-3"
-                    >
-                      <h4 onClick={() => readByUser(notification)}>
-                        {notification.notification}
-                      </h4>
-                      <h4>{notification.notiCreationDate.slice(0, 10)}</h4>
-                      <button
-                        className="btn btn-danger"
-                        onClick={deleteProfileNotification}
-                        value={notification._id}
-                      >
-                        X
-                      </button>
-                    </div>
-                  ) : (
-                    <div
-                      key={notification._id}
-                      className="card border-dark text-white bg-info mb-3"
-                    >
-                      <h4 onClick={() => readByUser(notification)}>
-                        {notification.notification}
-                      </h4>
-                      <h4>{notification.notiCreationDate.slice(0, 10)}</h4>
-                      <button
-                        className="btn btn-danger"
-                        onClick={deleteProfileNotification}
-                        value={notification._id}
-                      >
-                        X
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-      {profile.friends.length === 0 ? null : CheckFriendsNotifications()}
-      {/* {notifications.length === 0 ? null : GetDateTime()} */}
-      <h4>Common Notifications</h4>
-      <div>
-        {notifications.length === 0 ? (
-          <h4>You don't have any common notifications</h4>
-        ) : (
-          <div>
-            {notifications.map((notification) => (
-              <div
-                key={notification._id}
-                className="card border-dark bg-light mb-3"
-              >
-                <Link to={notification.link.slice(21)}>
-                  <h4>{notification.notification}</h4>
-                </Link>
-                <h4>{notification.username}</h4>
-                <Link to={notification.link.slice(21)}>
-                  <a>{notification.link}</a>
-                </Link>
-                {notification.created_date.slice(0, 10) !== ISOstring ? (
+          {profileNotification
+            .sort(
+              (a, b) =>
+                b.notiCreationDate.slice(8, 10) -
+                a.notiCreationDate.slice(8, 10)
+            )
+            .map((notification) => (
+              <div>
+                {notification === null ? null : (
                   <div>
-                    <h5>{notification.created_date.slice(0, 10)}</h5>
-                  </div>
-                ) : (
-                  <div>
-                    <h5>Today</h5>
+                    {notification.readByUser ? (
+                      <div
+                        key={notification._id}
+                        onClick={() => readByUser(notification)}
+                        className="card border-dark bg-light mb-3"
+                      >
+                        <h4>{notification.notification}</h4>
+                        <h4>{notification.notiCreationDate.slice(0, 10)}</h4>
+                        <button
+                          className="btn btn-danger"
+                          onClick={deleteProfileNotification}
+                          value={notification._id}
+                        >
+                          X
+                        </button>
+                      </div>
+                    ) : (
+                      <div
+                        key={notification._id}
+                        className="card border-dark text-white bg-info mb-3"
+                      >
+                        <h4 onClick={() => readByUser(notification)}>
+                          {notification.notification}
+                        </h4>
+                        <h4>{notification.notiCreationDate.slice(0, 10)}</h4>
+                        <button
+                          className="btn btn-danger"
+                          onClick={deleteProfileNotification}
+                          value={notification._id}
+                        >
+                          X
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
             ))}
+        </div>
+      )}
+      {profile.friends.length === 0 ? null : CheckFriendsNotifications()}
+      <h4>Common Notifications</h4>
+      <div>
+        {showNotification ? (
+          <div>
+            {notifications.length === 0 ? (
+              <h4>You don't have any common notifications</h4>
+            ) : (
+              <div>
+                <button
+                  className="btn btn-primary"
+                  onClick={handleHideNotification}
+                >
+                  Hide Notifications
+                </button>
+                {notifications
+                  .sort(
+                    (a, b) =>
+                      b.created_date.slice(8, 10) - a.created_date.slice(8, 10)
+                  )
+                  .map((notification) => (
+                    <div
+                      key={notification._id}
+                      className="card border-dark bg-light mb-3"
+                    >
+                      <Link to={notification.link.slice(21)}>
+                        <h4>{notification.notification}</h4>
+                      </Link>
+                      <h4>{notification.username}</h4>
+                      {notification.created_date.slice(0, 10) !== ISOstring ? (
+                        <div>
+                          <h5>{notification.created_date.slice(0, 10)}</h5>
+                        </div>
+                      ) : (
+                        <div>
+                          <h5>Today</h5>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div>
+            <h4>
+              Your Notifications are hidden click here to see your notifications
+            </h4>
+            <button
+              className="btn btn-primary"
+              onClick={handleShowNotification}
+            >
+              Show All Notifications
+            </button>
           </div>
         )}
       </div>

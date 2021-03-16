@@ -236,11 +236,12 @@ const Search = (props) => {
       </div>
       <div>
         {profiles.map((item) => (
-          <div className="card border-dark bg-light mb-3" key={item._id}>
+          <div className="card border-dark bg-light mb-3 media" key={item._id}>
             {!item.photoUrl ? (
               <img
                 src={defaultProfilePhoto}
                 alt="defaultProfilePhoto"
+                className="align-self-start mr-3"
                 style={{ width: "100px", height: "100px" }}
               ></img>
             ) : (
@@ -248,20 +249,23 @@ const Search = (props) => {
                 src={item.photoUrl}
                 style={{ width: "100px", height: "100px" }}
                 alt="profilePhoto"
+                className="align-self-start mr-3"
               ></img>
             )}
-            <h4 className="item" onClick={goToProfile} value={item._id}>
-              Name: {item.firstName} {item.lastName}
-            </h4>
-            <h5 className="item">College Name: {item.collegeName}</h5>
-            <h5 className="item">Location: {item.location}</h5>
-            <button
-              className="btn btn-primary"
-              onClick={goToProfile}
-              value={item._id}
-            >
-              Go to Profile
-            </button>
+            <div className="media-body">
+              <h4 className="mt-0" onClick={goToProfile} value={item._id}>
+                Name: {item.firstName} {item.lastName}
+              </h4>
+              <h5 className="item">College Name: {item.collegeName}</h5>
+              <h5 className="item">Location: {item.location}</h5>
+              <button
+                className="btn btn-primary"
+                onClick={goToProfile}
+                value={item._id}
+              >
+                Go to Profile
+              </button>
+            </div>
           </div>
         ))}
       </div>
