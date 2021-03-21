@@ -2,47 +2,72 @@ import React, { useContext, useState } from "react";
 import { Redirect } from "react-router-dom";
 import Axios from "axios";
 import { AuthContext } from "../Context/AuthContext";
-
-function    completeSubmission ()  {
-    return(
-        <Redirect to = "/" />
-    );
-}
+import {app} from '../base';
 
 function New(props) {
-    const [inputs, setInputs] = useState({});
-    const [redirect, setRedirect] = useState(false);
-  
-    const { isAuthenticated, user, googleLogin, myprofileId } = useContext(
+    const {isAuthenticated, user} = useContext(
         AuthContext
       );
 
-      const onSubmit = (e) => {
+    let file;
+    let storageRef;
+    let fileRef;
+    let link = "";
+    let fileType = "";
+    let ext = "";
+
+    const [inputs, setInputs] = useState({
+        username: user.username,
+        content : "",
+        contentURL:"",
+        file:""
+    });
+    const [redirect, setRedirect] = useState(false);
+
+    const fileUpload = async () => {
+      ext = file.name.split('.')[1];
+      let x = Math.floor((Math.random() * 100000000000000) + 1).toString() + '.'+ ext;
+      storageRef = app.storage().ref()
+      fileRef = storageRef.child(x)
+      fileRef.getDownloadURL().then(e => console.log(e.toString()))
+      
+      await fileRef.put(file).then(async () => {
+        console.log('Completed')
+    })
+
+    return console.log('completed')
+    }
+
+    const onSubmit = async (e) => {
         e.preventDefault();
+
+        await fileUpload()
+
+        await fileRef.getDownloadURL().then(e => link =  e.toString())
+
+        if(ext == "mp4" || ext == "mov" || ext == "wmv" || ext == "flv" || ext == "avi" || ext == "avchd" || ext == "webm" ||ext == "mkv" || ext == "mp3"){
+          fileType = "video";
+        }else if(ext == "jpeg" || ext == "jpg"|| ext == "png" || ext == "gif" || ext =="tiff" || ext == "psd" || ext == "raw"){
+          fileType = "image";
+        }else if(ext == "pdf"){
+          fileType = "pdf";
+        }else{
+          fileType = "url"
+        }
+
+
+        if(file)
         Axios({
-          method: "POST",
-          data: {
-            collegeName: education.collegeName,
-            collegeLocation: education.collegeLocation,
-            courseName: education.courseName,
-            graduationDate: education.graduationDate,
-            currentCollege: education.currentCollege,
-            username: user.username,
-          },
-          withCredentials: true,
-          url: "http://localhost:4000/newblog",
-        }).then((data) => {
-          console.log(data);
-          const { message } = data.data;
-          setMessage(message);
-          resetForm();
-          console.log(message);
-          if (!message.msgError) {
-            timerID = setTimeout(() => {
-              props.history.push("/profile");
-            }, 2000);
-          }
-        });
+            method: "POST",
+            data: {
+                username: inputs.username,
+                content: inputs.content,
+                contentURL: link,
+                type: fileType
+            },
+            withCredentials: true,
+            url: "http://localhost:4000/addblog",
+          }).then((data) => console.log("Completed "  + data))
       };
   
     function handleInputChange(event) {
@@ -54,31 +79,36 @@ function New(props) {
         inputs[name] = value;
         return inputs;
       });
-    }
+  }
+
+  function fileChange(e){
+    file = e.target.files[0];
+  }
   
     if (redirect) return <Redirect to="/index" />;
   
     return (
       <div className="container">
+        {!isAuthenticated ? <Redirect to="/login" /> : null}
         <header>
           <h1>Want to add Something new {!user.username ? null : user.username}</h1>
         </header>
   
         <div>
-          <form onSubmit={handleSubmit}>
+          <form >
             <div className="form-group">
               <label>Blog Story</label>
               <textarea
                 className="form-control"
-                name="blog"
+                name="content"
                 required="required"
                 onChange={handleInputChange}
               />
-              <input type="file" ref={el} onChange={handleChange} />
+              <input type="file" onChange={fileChange}/>
             </div>
   
             <div className="form-group">
-              <button className="btn btn-dark" type="submit" onClick={completeSubmission} >
+              <button className="btn btn-dark" type="submit" onClick={onSubmit} >
                 Submit
               </button>
             </div>

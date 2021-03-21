@@ -1,28 +1,30 @@
 const mongoose = require("mongoose");
 
-const blog = new mongoose.Schema({
+const Blog = new mongoose.Schema({
   username: {
     type: String,
-    required: true,
+    required: true
   },
   content: {
     type: String,
+    required:true
   },
   contentURL: {
     type: String,
-    required: true,
+    required: true
   },
   postdate: {
     type: Date,
+    default:Date.now
   },
   liked: {
     type: Boolean,
-    default: false,
+    default: false
   },
-  professon: {
+  type:{
     type: String,
-    required: true,
-  },
+    required:true
+  }
 });
 
-module.exports = mongoose.model("Blog", blog);
+module.exports = mongoose.model("blog", Blog);

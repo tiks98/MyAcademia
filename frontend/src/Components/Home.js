@@ -11,6 +11,7 @@ const Home = (props) => {
   );
   const authContext = useContext(AuthContext);
   const [i, SetI] = useState(false);
+  const [blogs, setBlogs] = useState([])
   const [profile, setProfile] = useState({
     id: "",
     photoUrl: "",
@@ -57,9 +58,6 @@ const Home = (props) => {
     });
   }, []);
 
-  const sayHi = () => {
-    alert("Hello Guys");
-  } 
   const getMyProfile = () => {
     if (i === false) {
       authContext.setMyProfileId(profile.id);
@@ -70,6 +68,33 @@ const Home = (props) => {
     }
   };
 
+  useEffect(() => {
+    Axios.get("http://localhost:4000/getblog")
+      .then(result => setBlogs(result.data))
+      .catch(err => console.error(err));
+  }, []);
+
+  const blogCreation = (e) => {
+    if(e.type == "video"){
+      return(
+        <iframe width="420" height="315"
+        src={e.contentURL}>
+        </iframe>
+      )
+    }else if(e.type =="image"){
+      return(
+        <img src = {e.contentURL} width="420" height="315"/>
+      )
+    }else if(e.type = "pdf"){
+      return(
+        <embed src={e.contentURL} />
+      )
+    }else {
+      return(
+        <link href={e.contentURL} width  />
+        )
+    }
+  }
 
 
   return (
@@ -84,6 +109,15 @@ const Home = (props) => {
       {/* {getMyProfile()} */}
       <h2>{myprofileId}</h2>
       <Link className="Links" to={`/newblog`}>Add New Blog</Link>
+      {blogs.map(blog => ( 
+        <div className = "blogArea">
+        <div>{blog.username}</div>
+        <div>{blog.postdate}</div>
+        <div>{blog.content}</div>
+        <div>{blog.type}</div>
+        <div>{blog.contentURL}</div>
+        {blogCreation(blog)}
+      </div>))}
     </div>
   );
 };
