@@ -19,6 +19,7 @@ const Profile = (props) => {
   const [myProfileID, setMyProfileId] = useState({
     mypid: "",
     firstName: "",
+    lastName: "",
   });
   const [profile, setProfile] = useState({
     id: "",
@@ -91,7 +92,7 @@ const Profile = (props) => {
         console.log("No Profile data found");
       } else {
         setMyProfileId({
-          ...myprofileId,
+          ...myProfileID,
           mypid: data.data._id,
           firstName: data.data.firstName,
           lastName: data.data.lastName,
@@ -265,7 +266,7 @@ const Profile = (props) => {
     Axios({
       method: "put",
       data: {
-        notification: `${myProfileID.firstName} has accepted your friend request`,
+        notification: `${myProfileID.firstName} ${myProfileID.lastName} has accepted your friend request`,
         link: `http://localhost:3000/profile/${myProfileID.mypid}`,
       },
       url: `http://localhost:4000/addnotification/${profile.id}`,

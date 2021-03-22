@@ -47,6 +47,7 @@ const profile = new mongoose.Schema({
       },
       readByUser: {
         type: Boolean,
+        default: false,
       },
       notiCreationDate: {
         type: Date,

@@ -210,6 +210,7 @@ const Notification = (props) => {
       });
     } else {
       props.history.push(`${notification.link.slice(21)}`);
+      console.log("readbyuser not working properly");
     }
   };
 
