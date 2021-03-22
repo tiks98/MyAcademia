@@ -3,11 +3,18 @@ import { Redirect } from "react-router-dom";
 import Axios from "axios";
 import { AuthContext } from "../Context/AuthContext";
 import {app} from '../base';
+import Select from 'react-select'
 
 function New(props) {
     const {isAuthenticated, user} = useContext(
         AuthContext
       );
+
+    const options =[
+      {label:"Connections", value:"connections"},
+      {label:"Everyone", value:"everyone"}
+    ]
+  
 
     let file;
     let storageRef;
@@ -23,6 +30,16 @@ function New(props) {
         file:""
     });
     const [redirect, setRedirect] = useState(false);
+
+    const [s] = useState({
+      option:options[0].value
+    })
+
+    const handleChange = (option) =>{
+        s.option = option
+        console.log(option);
+    }
+    
 
     const fileUpload = async () => {
       ext = file.name.split('.')[1];
@@ -63,7 +80,8 @@ function New(props) {
                 username: inputs.username,
                 content: inputs.content,
                 contentURL: link,
-                type: fileType
+                type: fileType,
+                sharing: s.option.value
             },
             withCredentials: true,
             url: "http://localhost:4000/addblog",
@@ -105,6 +123,8 @@ function New(props) {
                 onChange={handleInputChange}
               />
               <input type="file" onChange={fileChange}/>
+              
+              <Select defaultValue={options[0]} onChange={handleChange} options={options}/>
             </div>
   
             <div className="form-group">

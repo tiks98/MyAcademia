@@ -10,6 +10,7 @@ export const addBlog = (req, res) => {
     content: req.body.content,
     contentURL: req.body.contentURL,
     type: req.body.type,
+    sharing: req.body.sharing,
     liked: false});
 newBlog.save().then(blog => res.json(blog));
 }

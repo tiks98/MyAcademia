@@ -21,6 +21,10 @@ const Blog = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  sharing:{
+    type:String,
+    required:true
+  },
   type:{
     type: String,
     required:true
