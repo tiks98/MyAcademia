@@ -369,33 +369,36 @@ const MyProfile = (props) => {
             ></img>
           ) : (
             <img
+            className= "profile_picture"
               src={profile.photoUrl}
               style={{ width: "200px", height: "200px" }}
               alt="profilePhoto"
             ></img>
           )}
-          <h2>{!user.username ? null : <h2>Username: {user.username}</h2>}</h2>
-          <h5>First Name: {profile.firstName}</h5>
-          <h5>Last Name: {profile.lastName}</h5>
-          <h5>Email: {profile.email}</h5>
-          <h5>College Name: {profile.collegeName}</h5>
-          <h5>Location: {profile.location}</h5>
-          <h5>IQ: {profile.IQ}</h5>
-          <h5>About Me: {profile.about}</h5>
-          {!profile.isFaculty ? <h3>Student</h3> : <h3>Education Faculty</h3>}
-          <h4>Friends List:</h4>
-          {profile.friends.length === 0 ? null : (
-            <div>
-              {profile.friends.map((friend) => (
-                <div>
-                  <h5>Friend's Username: {friend}</h5>
-                </div>
-              ))}
-            </div>
-          )}
-          <button className="btn btn-danger btn-lg" onClick={deleteProfile}>
-            Delete Profile
-          </button>
+          <div className= "userinfo">
+            <h2>{!user.username ? null : <h2>Username: {user.username}</h2>}</h2>
+            <h5>First Name: {profile.firstName}</h5>
+            <h5>Last Name: {profile.lastName}</h5>
+            <h5>Email: {profile.email}</h5>
+            <h5>College Name: {profile.collegeName}</h5>
+            <h5>Location: {profile.location}</h5>
+            <h5>IQ: {profile.IQ}</h5>
+            <h5>About Me: {profile.about}</h5>
+            {!profile.isFaculty ? <h3>Student</h3> : <h3>Education Faculty</h3>}
+            <h4>Friends List:</h4>
+            {profile.friends.length === 0 ? null : (
+              <div>
+                {profile.friends.map((friend) => (
+                  <div>
+                    <h5>Friend's Username: {friend}</h5>
+                  </div>
+                ))}
+              </div>
+            )}
+            <button className="btn btn-danger btn-lg" onClick={deleteProfile}>
+              Delete Profile
+            </button>
+          </div>
           <Link to="#profileForm">
             <button
               className="btn btn-lg btn-primary"
@@ -564,13 +567,10 @@ const MyProfile = (props) => {
               </div>
             )}
           </div>
-          <h2>Education Details</h2>
-          <Link to="/neweducation">
-            <button className="btn btn-lg btn-primary">Add</button>
-          </Link>
-          <div>
+          <h2 className="educationdetails">Education Details</h2>
+          <div className="educationprofile">
             {education.map((item) => (
-              <div className="card border-dark bg-light mb-3">
+              <div>
                 <h4 className="item" value={item.collegeName}>
                   College Name: {item.collegeName}
                 </h4>
@@ -682,12 +682,12 @@ const MyProfile = (props) => {
               </div>
             )}
           </div>
-          <h2>Work Details</h2>
-          <Link to="/newwork">
+          <Link to="/neweducation">
             <button className="btn btn-lg btn-primary">Add</button>
           </Link>
+          <h2 className="workdetails">Work Details</h2>
           {work.map((item) => (
-            <div className="card border-dark bg-light mb-3">
+            <div className="workprofile">
               <h4 className="item">Position: {item.position}</h4>
               <h4 className="item">Employer Name: {item.employerName}</h4>
               <h4 className="item">
@@ -791,6 +791,9 @@ const MyProfile = (props) => {
               </form>
             </div>
           )}
+          <Link to="/newwork">
+            <button className="btn btn-lg btn-primary">Add</button>
+          </Link>
           {message ? <Message message={message} /> : null}
         </div>
       )}

@@ -70,7 +70,7 @@ const WorkForm = (props) => {
   };
 
   return (
-    <div>
+    <div className="work">
       {!isAuthenticated ? <Redirect to="/login" /> : null}
       <form onSubmit={onSubmit}>
         <h1>Add Your Work Details</h1>
