@@ -6,6 +6,7 @@ import { AuthContext } from "../Context/AuthContext";
 import AuthService from "../Services/AuthService";
 import Message from "./Message";
 import { Link } from "react-router-dom";
+import style from "../Styling/Registration-style.css";
 
 //creating class and extending the component
 const Login = (props) => {
@@ -112,7 +113,7 @@ const Login = (props) => {
 
   // rendering the page with jsx elements
   return (
-    <div>
+    <div className="login">
       <form onSubmit={onSubmit}>
         <h1>login</h1>
         <div className="mb-3">

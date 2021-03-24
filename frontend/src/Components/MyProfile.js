@@ -6,6 +6,7 @@ import Message from "./Message";
 import defaultProfilePhoto from "../Images/default_profile_picture.png";
 import Profile from "./Profile";
 import AuthService from "../Services/AuthService";
+import "../Styling/profile.css";
 
 const MyProfile = (props) => {
   const { isAuthenticated, user, googleLogin, myprofileId } = useContext(
@@ -348,7 +349,7 @@ const MyProfile = (props) => {
   };
 
   return (
-    <div>
+    <div className="profilebox">
       {!isAuthenticated ? <Redirect to="/login" /> : null}
       <h1>Profile</h1>
       {!haveProfile ? (

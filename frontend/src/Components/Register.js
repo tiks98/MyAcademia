@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import Axios from "axios";
 import { AuthContext } from "../Context/AuthContext";
 import Message from "./Message";
+import styling from "../Styling/Registration-style.css";
 
 //creating class and extending the component
 const Register = (props) => {
@@ -52,7 +53,7 @@ const Register = (props) => {
 
   // rendering the page with jsx elements
   return (
-    <div>
+    <div className="register">
       <form onSubmit={onSubmit}>
         <h1>Register</h1>
         <label htmlFor="username" className="sr-only">
