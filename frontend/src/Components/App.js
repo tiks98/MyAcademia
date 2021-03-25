@@ -18,6 +18,7 @@ import Notification from "./Notification";
 import Challenge from "./Challenge";
 import Search from "./Search";
 import Profile from "./Profile";
+import IQTest from "./IQTest";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
       <Route path="/notification" component={Notification} />
       <Route path="/challenge" component={Challenge} />
       <Route path="/search" component={Search} />
+      <Route path="/newtest" component={IQTest} />
     </Router>
   );
 }
