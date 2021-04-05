@@ -72,7 +72,7 @@ const Challenge = (props) => {
             <h4>Score: {userScore.userScore}</h4>
             <h4>IQ: {userScore.calculatedIQ}</h4>
             <h4>TimeTaken: {userScore.timeTaken}</h4>
-            <h4>Date: {userScore.date}</h4>
+            <h4>Date: {userScore.date.slice(0, 10)}</h4>
           </div>
         ))}
       <h2>Leaderboards</h2>
@@ -101,7 +101,7 @@ const Challenge = (props) => {
                     <h4>Score: {score.userScore}</h4>
                     <h4>IQ: {score.calculatedIQ}</h4>
                     <h4>TimeTaken: {score.timeTaken}</h4>
-                    <h4>Date: {score.date}</h4>
+                    <h4>Date: {score.date.slice(0, 10)}</h4>
                   </div>
                 ))}
             </div>
@@ -127,7 +127,7 @@ const Challenge = (props) => {
                         <h4>Score: {score.userScore}</h4>
                         <h4>IQ: {score.calculatedIQ}</h4>
                         <h4>TimeTaken: {score.timeTaken}</h4>
-                        <h4>Date: {score.date}</h4>
+                        <h4>Date: {score.date.slice(0, 10)}</h4>
                       </div>
                     ))}
                 </div>
@@ -166,7 +166,7 @@ const Challenge = (props) => {
                         <h4>Score: {allScore.userScore}</h4>
                         <h4>IQ: {allScore.calculatedIQ}</h4>
                         <h4>TimeTaken: {allScore.timeTaken}</h4>
-                        <h4>Date: {allScore.date}</h4>
+                        <h4>Date: {allScore.date.slice(0, 10)}</h4>
                       </div>
                     ))}
                 </div>
