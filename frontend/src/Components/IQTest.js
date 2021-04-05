@@ -18,6 +18,7 @@ const IQTest = (props) => {
     mypid: "",
     firstName: "",
     lastName: "",
+    IQ: 0,
   });
 
   useEffect(() => {
@@ -44,6 +45,7 @@ const IQTest = (props) => {
           mypid: data.data._id,
           firstName: data.data.firstName,
           lastName: data.data.lastName,
+          IQ: data.data.IQ,
         });
         console.log(myProfile);
       }
@@ -83,6 +85,17 @@ const IQTest = (props) => {
     const IQ = score / minutesCalcualtion;
     const calculatedIQ = Math.round(IQ.toString());
     console.log(calculatedIQ);
+    if (calculatedIQ > myProfile.IQ) {
+      Axios({
+        method: "put",
+        data: {
+          IQ: calculatedIQ,
+        },
+        url: `http://localhost:4000/profile/${myProfile.mypid}`,
+      }).then((data) => {
+        console.log(data.data);
+      });
+    }
     Axios({
       method: "post",
       data: {
@@ -120,7 +133,10 @@ const IQTest = (props) => {
       <h2>{!user.username ? null : user.username}</h2>
       <h2>{!myProfile ? null : myProfile.firstName}</h2>
       <p>You have 30 minutes to complete the test</p>
-      <p>IQ calculated from this Test is not 100% accurate</p>
+      <p>
+        IQ calculated from this Test is not 100% accurate, it is based on your
+        score by your time taken
+      </p>
       <div>
         <MyStopwatch />
       </div>
