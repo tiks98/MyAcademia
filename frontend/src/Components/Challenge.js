@@ -18,14 +18,14 @@ const Challenge = (props) => {
       },
       url: "http://localhost:4000/score",
     }).then((data) => {
-      console.log(data.data);
+      // console.log(data.data); Development Purpose only
       setUserScores(data.data);
     });
     Axios({
       method: "GET",
       url: "http://localhost:4000/getscore",
     }).then((data) => {
-      console.log(data);
+      // console.log(data); Development Purpose only
       setAllScores(data.data);
     });
   }, []);

@@ -26,7 +26,7 @@ const IQTest = (props) => {
       method: "GET",
       url: "http://localhost:4000/getchallenge",
     }).then((data) => {
-      console.log(data.data);
+      // console.log(data.data); Development purpose only
       setQuestions(data.data);
     });
     Axios({
@@ -36,9 +36,10 @@ const IQTest = (props) => {
         username: user.username,
       },
     }).then((data) => {
-      console.log(data);
+      // console.log(data); Development purpose only
       if (data.data === null) {
-        console.log("No Profile data found");
+        // console.log("No Profile data found"); Development purpose only
+        window.location.reload(false);
       } else {
         setMyProfile({
           ...myProfile,
@@ -47,7 +48,7 @@ const IQTest = (props) => {
           lastName: data.data.lastName,
           IQ: data.data.IQ,
         });
-        console.log(myProfile);
+        // console.log(myProfile); Development purpose only
       }
     });
   }, []);
@@ -55,7 +56,7 @@ const IQTest = (props) => {
   const onChange = (e) => {
     e.preventDefault();
     setUserAnswers({ ...userAnswers, [e.target.name]: e.target.value });
-    console.log(userAnswers);
+    // console.log(userAnswers); Development Purpose only
   };
 
   const MyStopwatch = () => {
@@ -77,14 +78,21 @@ const IQTest = (props) => {
     pause(true);
     setShowScore(true);
     const timeTaken = `${minutes}:${seconds}`;
-    console.log(timeTaken);
+    // console.log(timeTaken); Development purpose only
     const secondsCalculation = minutes * 60 + seconds;
     const minutesCalcualtion = seconds / 60 + minutes;
-    console.log(secondsCalculation);
-    console.log(minutesCalcualtion);
-    const IQ = score / minutesCalcualtion;
+    // console.log(secondsCalculation); Development purpose only
+    // console.log(minutesCalcualtion); Development purpose only
+    var IQ = (score / minutesCalcualtion) * 100;
+    if (IQ > 250) {
+      if (IQ > 999) {
+        IQ = IQ / 100;
+      } else {
+        IQ = IQ / 10;
+      }
+    }
     const calculatedIQ = Math.round(IQ.toString());
-    console.log(calculatedIQ);
+    // console.log(calculatedIQ); Development purpose only
     if (calculatedIQ > myProfile.IQ) {
       Axios({
         method: "put",
@@ -93,7 +101,7 @@ const IQTest = (props) => {
         },
         url: `http://localhost:4000/profile/${myProfile.mypid}`,
       }).then((data) => {
-        console.log(data.data);
+        // console.log(data.data); Development purpose only
       });
     }
     Axios({
@@ -107,7 +115,7 @@ const IQTest = (props) => {
       },
       url: "http://localhost:4000/newscore",
     }).then((data) => {
-      console.log(data.data);
+      // console.log(data.data); Development purpose only
       props.history.push("/challenge");
     });
     return <></>;
@@ -140,7 +148,7 @@ const IQTest = (props) => {
       <div>
         <MyStopwatch />
       </div>
-      {minutes > 0 ? <TestFinishAuto /> : null}
+      {minutes > 29 ? <TestFinishAuto /> : null}
       {showScore ? (
         <div>
           You scored {score} out of {questions.length}
