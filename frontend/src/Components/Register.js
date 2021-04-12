@@ -56,6 +56,7 @@ const Register = (props) => {
     <div className="register">
       <form onSubmit={onSubmit}>
         <h1>Register</h1>
+        <hr></hr>
         <label htmlFor="username" className="sr-only">
           Username:{" "}
         </label>
