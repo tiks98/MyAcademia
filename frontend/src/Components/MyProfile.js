@@ -376,9 +376,7 @@ const MyProfile = (props) => {
             ></img>
           )}
           <div className= "userinfo">
-            <h2>{!user.username ? null : <h2>Username: {user.username}</h2>}</h2>
-            <h5>First Name: {profile.firstName}</h5>
-            <h5>Last Name: {profile.lastName}</h5>
+            <h5>Name: {profile.firstName} {profile.lastName}</h5>
             <h5>Email: {profile.email}</h5>
             <h5>College Name: {profile.collegeName}</h5>
             <h5>Location: {profile.location}</h5>
@@ -494,19 +492,6 @@ const MyProfile = (props) => {
                       name="location"
                       type="text"
                       value={profile.location}
-                      className="form-control"
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="IQ" className="form-label">
-                      IQ:{" "}
-                    </label>
-                    <input
-                      placeholder={profile.IQ}
-                      onChange={onChangeProfile}
-                      name="IQ"
-                      type="number"
-                      value={profile.IQ}
                       className="form-control"
                     />
                   </div>

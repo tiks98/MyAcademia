@@ -168,18 +168,6 @@ const ProfileForm = (props) => {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="IQ" className="form-label">
-            IQ:{" "}
-          </label>
-          <input
-            placeholder="Enter IQ"
-            onChange={onChange}
-            name="IQ"
-            type="number"
-            className="form-control"
-          />
-        </div>
-        <div className="mb-3">
           <label htmlFor="about" className="form-label">
             About:{" "}
           </label>

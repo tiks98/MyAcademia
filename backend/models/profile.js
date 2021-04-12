@@ -28,6 +28,7 @@ const profile = new mongoose.Schema({
   },
   IQ: {
     type: Number,
+    default: 0
   },
   about: {
     type: String,

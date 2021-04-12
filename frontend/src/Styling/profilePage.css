@@ -115,13 +115,11 @@
     margin-right: 10%;
 }
 
-.profilebox .profileMain .userinfo .profileIq{
-    display: none;
-}
 
-.profilebox .profileMain .userinfo .profileAbout{
+
+/* .profilebox .profileMain .userinfo .profileAbout{
     display: none;
-}
+} */
 
 .profilebox .profileMain .userinfo h4{
     display: none;
