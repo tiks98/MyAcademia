@@ -2,6 +2,7 @@ import Axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
+import "../Styling/Challenge.css"
 
 const Challenge = (props) => {
   const { isAuthenticated, user, googleLogin } = useContext(AuthContext);
@@ -50,11 +51,11 @@ const Challenge = (props) => {
   };
 
   return (
-    <div>
+    <div className="challengeMain">
       {!isAuthenticated ? <Redirect to="/login" /> : null}
       <h1>Welcome to Challenge Page</h1>
-      <h2>{!user.username ? null : user.username}</h2>
-      <button className="btn btn-primary" onClick={takeIQTest}>
+      <h2 className="iqUsername">{!user.username ? null : user.username}</h2>
+      <button className="btn btn-primary-first" onClick={takeIQTest}>
         Take IQ Test
       </button>
       <h3>My Personal Scores</h3>
@@ -70,26 +71,29 @@ const Challenge = (props) => {
           <div key={userScore._id} className="card border-dark bg-light mb-3">
             <h4>Username: {userScore.username}</h4>
             <h4>Score: {userScore.userScore}</h4>
-            <h4>IQ: {userScore.calculatedIQ}</h4>
+            <h4 className="iqScore">IQ: {userScore.calculatedIQ}</h4>
             <h4>TimeTaken: {userScore.timeTaken}</h4>
             <h4>Date: {userScore.date.slice(0, 10)}</h4>
           </div>
         ))}
-      <h2>Leaderboards</h2>
-      <button className="btn btn-primary" onClick={sortByIQ}>
-        Sort by IQ
-      </button>
-      <button className="btn btn-primary" onClick={sortByDate}>
-        Sort by Date
-      </button>
-      <button className="btn btn-primary" onClick={resetSort}>
-        Reset Sort
-      </button>
+      <h2 className="iqLeaderboard">Leaderboards</h2>
+      <hr className="line"></hr>
+      <div className="sortBtn">
+        <button className="btn btn-primary" onClick={sortByIQ}>
+          Sort by IQ
+        </button>
+        <button className="btn btn-primary" onClick={sortByDate}>
+          Sort by Date
+        </button>
+        <button className="btn btn-primary" onClick={resetSort}>
+          Reset Sort
+        </button>
+      </div>
       {allScores.length === 0 ? null : (
-        <div>
+        <div className="challengeSort">
           {sortIQClicked ? (
             <div>
-              <h4>Sorted By IQ</h4>
+              <h4 className="sortMain">Sorted By IQ</h4>
               {allScores
                 .sort((a, b) => b.calculatedIQ - a.calculatedIQ)
                 .map((score) => (
@@ -109,7 +113,7 @@ const Challenge = (props) => {
             <div>
               {sortDateClicked ? (
                 <div>
-                  <h4>Sorted By Date</h4>
+                  <h4 className="sortMain">Sorted By Date</h4>
                   {allScores
                     .sort((a, b) => {
                       if (a.date.slice(0, 4) === b.date.slice(0, 4)) {
@@ -133,7 +137,7 @@ const Challenge = (props) => {
                 </div>
               ) : (
                 <div>
-                  <h4>Sorted By Score</h4>
+                  <h4 className="sortMain">Sorted By Score</h4>
                   {allScores
                     .sort((a, b) => {
                       if (a.userScore === b.userScore) {

@@ -61,8 +61,8 @@ const IQTest = (props) => {
 
   const MyStopwatch = () => {
     return (
-      <div style={{ textAlign: "center" }}>
-        <p>Time</p>
+      <div style={{ textAlign: "center", fontSize: "20px"}}>
+        {/* <p>Time</p> */}
         <div style={{ fontSize: "70px" }}>
           <span>{minutes}</span>:<span>{seconds}</span>
         </div>
@@ -135,16 +135,18 @@ const IQTest = (props) => {
   };
 
   return (
-    <div>
+    <div className="iqTest">
       {!isAuthenticated ? <Redirect to="/login" /> : null}
       <h1>Welcome To IQ Test</h1>
-      <h2>{!user.username ? null : user.username}</h2>
-      <h2>{!myProfile ? null : myProfile.firstName}</h2>
-      <p>You have 30 minutes to complete the test</p>
-      <p>
-        IQ calculated from this Test is not 100% accurate, it is based on your
-        score by your time taken
-      </p>
+      
+      <h2 className="iqUsername">{!user.username ? null : user.username}</h2>
+      <h2 className="iqName">{!myProfile ? null : myProfile.firstName}</h2>
+      <ul>
+        <li><p className="iqTime">You have 30 minutes to complete the test</p></li>
+        <li><p className="iqAbout">
+          IQ calculated from this Test is not 100% accurate, it is based on your
+          score by your time taken</p></li>
+      </ul>
       <div>
         <MyStopwatch />
       </div>
@@ -169,7 +171,7 @@ const IQTest = (props) => {
               </div>
               <div className="answer-section">
                 {questions[currentQuestion].answers.map((answer) => (
-                  <div>
+                  <div className="answerBtn">
                     <button
                       className="btn btn-primary"
                       onClick={() => answerOption(answer.isCorrect)}
