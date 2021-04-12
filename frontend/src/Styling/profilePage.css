@@ -22,14 +22,13 @@
 /*------------------profile check box-----------------*/
 
 .profilebox{
-    background-color: 	#F8F8FF;
+    
     margin-bottom: 3%;
 }
 
 .profilebox h1{
     text-align: center;
     color: #eda32b;
-    margin-top: 3%;
     font-size: 45px;
 }
 
@@ -107,12 +106,22 @@
     margin-left: 17%;
     border-radius: 100%;
     border: 2px solid black;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
 }
 
 .profilebox .profileMain .userinfo{
     display: inline-block;
     width: 45%;
     margin-right: 10%;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+}
+
+.profilebox .profileMain .userinfo h5{
+    margin-left: 5%;
+}
+
+.profilebox .profileMain .userinfo h3{
+    margin-left: 5%;
 }
 
 
@@ -214,6 +223,12 @@
     margin-top: 3%;  
 }
 
+.profilebox h6{
+    text-align: center;
+    font-size: 30px;
+    margin-top: 3%;
+}
+
 
 .profilebox .educationAddBtn {
     display: inline-block;
@@ -259,6 +274,10 @@
 }
 
 /*------------------Edit education----------------------*/
+
+.educationprofile{
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+}
 
 #educationForm h2{
     text-align: center;
@@ -479,6 +498,10 @@
 }
 
 /*---------------------Edit work ---------------------*/
+
+.workprofile{
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+}
 
 #workForm h2{
     text-align: center;
