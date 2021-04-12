@@ -3,7 +3,7 @@ import Axios from "axios";
 import { Redirect } from "react-router-dom";
 import Message from "./Message";
 import { AuthContext } from "../Context/AuthContext";
-import style from '../Styling/Profile-form.css';
+import style from '../Styling/profilePage.css';
 
 const EducationForm = (props) => {
   const { isAuthenticated, user } = useContext(AuthContext);

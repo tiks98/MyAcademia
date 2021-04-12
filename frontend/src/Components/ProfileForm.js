@@ -85,7 +85,7 @@ const ProfileForm = (props) => {
   };
 
   return (
-    <div>
+    <div className="createProfile">
       {!isAuthenticated ? <Redirect to="/login" /> : null}
       <form onSubmit={onSubmit}>
         <h1>Create Your Profile</h1>

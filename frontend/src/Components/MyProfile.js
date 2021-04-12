@@ -6,7 +6,7 @@ import Message from "./Message";
 import defaultProfilePhoto from "../Images/default_profile_picture.png";
 import Profile from "./Profile";
 import AuthService from "../Services/AuthService";
-import "../Styling/profile.css";
+import "../Styling/profileMain.css";
 
 const MyProfile = (props) => {
   const { isAuthenticated, user, googleLogin, myprofileId } = useContext(
@@ -360,7 +360,7 @@ const MyProfile = (props) => {
           </Link>
         </div>
       ) : (
-        <div>
+        <div className="profileMain">
           {!profile.photoUrl ? (
             <img
               src={defaultProfilePhoto}
@@ -382,8 +382,8 @@ const MyProfile = (props) => {
             <h5>Email: {profile.email}</h5>
             <h5>College Name: {profile.collegeName}</h5>
             <h5>Location: {profile.location}</h5>
-            <h5>IQ: {profile.IQ}</h5>
-            <h5>About Me: {profile.about}</h5>
+            <h5 className="profileIq">IQ: {profile.IQ}</h5>
+            <h5 className="profileAbout">About Me: {profile.about}</h5>
             {!profile.isFaculty ? <h3>Student</h3> : <h3>Education Faculty</h3>}
             <h4>Friends List:</h4>
             {profile.friends.length === 0 ? null : (
@@ -395,9 +395,6 @@ const MyProfile = (props) => {
                 ))}
               </div>
             )}
-            <button className="btn btn-danger btn-lg" onClick={deleteProfile}>
-              Delete Profile
-            </button>
           </div>
           <Link to="#profileForm">
             <button
@@ -408,6 +405,9 @@ const MyProfile = (props) => {
               Edit Profile
             </button>
           </Link>
+          <button className="btn btn-danger btn-lg" onClick={deleteProfile}>
+              Delete Profile
+          </button>
           <div id="profileForm">
             {!editProfileClicked ? null : (
               <div>
@@ -567,7 +567,11 @@ const MyProfile = (props) => {
               </div>
             )}
           </div>
+          <hr className="lineEducation"></hr>
           <h2 className="educationdetails">Education Details</h2>
+          <Link to="/neweducation" className="educationAddBtn">
+            <button className="btn btn-lg btn-primary">+</button>
+          </Link>
           <div className="educationprofile">
             {education.map((item) => (
               <div>
@@ -603,8 +607,11 @@ const MyProfile = (props) => {
                 >
                   Delete
                 </button>
+                <hr className="line"></hr>
               </div>
+              
             ))}
+            
             {!editEducationClicked ? null : (
               <div id="educationForm">
                 <form onSubmit={onSubmitEducation}>
@@ -682,117 +689,119 @@ const MyProfile = (props) => {
               </div>
             )}
           </div>
-          <Link to="/neweducation">
-            <button className="btn btn-lg btn-primary">Add</button>
-          </Link>
           <h2 className="workdetails">Work Details</h2>
-          {work.map((item) => (
-            <div className="workprofile">
-              <h4 className="item">Position: {item.position}</h4>
-              <h4 className="item">Employer Name: {item.employerName}</h4>
-              <h4 className="item">
-                Start Date: {item.startDate.slice(0, 10)}
-              </h4>
-              {!item.endDate ? null : (
-                <h4 className="item">End Date: {item.endDate.slice(0, 10)}</h4>
-              )}
+          <div className="workprofile">
+            {work.map((item) => (
+                  <div>
+                    <h4 className="item">Position: {item.position}</h4>
+                    <h4 className="item">Employer Name: {item.employerName}</h4>
+                    <h4 className="item">
+                      Start Date: {item.startDate.slice(0, 10)}
+                    </h4>
+                    {!item.endDate ? null : (
+                      <h4 className="item">End Date: {item.endDate.slice(0, 10)}</h4>
+                    )}
 
-              {!item.currentJob ? null : <h4 className="item">Current Job</h4>}
-              <button
-                className="btn btn-primary"
-                onClick={editWorkForm}
-                href="#workForm"
-                value={item._id}
-              >
-                Edit
-              </button>
-              <button
-                className="btn btn-danger"
-                onClick={deleteWork}
-                value={item._id}
-              >
-                Delete
-              </button>
-            </div>
-          ))}
-          {!editWorkClicked ? null : (
-            <div id="workForm">
-              <form onSubmit={onSubmitWork}>
-                <h2>Edit Work Details</h2>
-                <input
-                  placeholder={editWork.position}
-                  onChange={onChangeWork}
-                  name="position"
-                  type="text"
-                  className="form-control"
-                  value={editWork.position}
-                  required
-                />
-                <input
-                  placeholder={editWork.employerName}
-                  onChange={onChangeWork}
-                  name="employerName"
-                  type="text"
-                  className="form-control"
-                  value={editWork.employerName}
-                  required
-                />
-                <input
-                  placeholder={editWork.startDate.slice(0, 10)}
-                  onChange={onChangeWork}
-                  name="startDate"
-                  type="date"
-                  className="form-control"
-                  value={editWork.startDate.slice(0, 10)}
-                  required
-                />
-                <input
-                  placeholder={editWork.endDate.slice(0, 10)}
-                  onChange={onChangeWork}
-                  name="endDate"
-                  type="date"
-                  className="form-control"
-                  value={editWork.endDate.slice(0, 10)}
-                  required
-                />
-                <label htmlFor="currentCollege" className="form-label">
-                  Is this your current job:{" "}
-                </label>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="currentJob"
-                    id="Yes"
-                    value="true"
-                    onChange={onChangeWork}
-                    onClick={onChangeWork}
-                  />
-                  <label className="form-check-label" htmlFor="Yes">
-                    Yes
-                  </label>
+                    {!item.currentJob ? null : <h4 className="item">Current Job</h4>}
+                    <button
+                      className="btn btn-primary"
+                      onClick={editWorkForm}
+                      href="#workForm"
+                      value={item._id}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="btn btn-danger"
+                      onClick={deleteWork}
+                      value={item._id}
+                    >
+                      Delete
+                    </button>
+                    <hr className="line"></hr>
+                  </div>
+                
+              ))}
+              {!editWorkClicked ? null : (
+                <div id="workForm">
+                  <form onSubmit={onSubmitWork}>
+                    <h2>Edit Work Details</h2>
+                    <input
+                      placeholder={editWork.position}
+                      onChange={onChangeWork}
+                      name="position"
+                      type="text"
+                      className="form-control"
+                      value={editWork.position}
+                      required
+                    />
+                    <input
+                      placeholder={editWork.employerName}
+                      onChange={onChangeWork}
+                      name="employerName"
+                      type="text"
+                      className="form-control"
+                      value={editWork.employerName}
+                      required
+                    />
+                    <input
+                      placeholder={editWork.startDate.slice(0, 10)}
+                      onChange={onChangeWork}
+                      name="startDate"
+                      type="date"
+                      className="form-control"
+                      value={editWork.startDate.slice(0, 10)}
+                      required
+                    />
+                    <input
+                      placeholder={editWork.endDate.slice(0, 10)}
+                      onChange={onChangeWork}
+                      name="endDate"
+                      type="date"
+                      className="form-control"
+                      value={editWork.endDate.slice(0, 10)}
+                      required
+                    />
+                    <label htmlFor="currentCollege" className="form-label">
+                      Is this your current job:{" "}
+                    </label>
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="currentJob"
+                        id="Yes"
+                        value="true"
+                        onChange={onChangeWork}
+                        onClick={onChangeWork}
+                      />
+                      <label className="form-check-label" htmlFor="Yes">
+                        Yes
+                      </label>
+                    </div>
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="currentJob"
+                        id="No"
+                        value="false"
+                        onChange={onChangeWork}
+                        onClick={onChangeWork}
+                      />
+                      <label className="form-check-label" htmlFor="No">
+                        No
+                      </label>
+                    </div>
+                    <button className="btn btn-lg btn-primary">Submit</button>
+                    <button className="btn btn-lg btn-secondary">Cancel</button>
+                  </form>
                 </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="currentJob"
-                    id="No"
-                    value="false"
-                    onChange={onChangeWork}
-                    onClick={onChangeWork}
-                  />
-                  <label className="form-check-label" htmlFor="No">
-                    No
-                  </label>
-                </div>
-                <button className="btn btn-lg btn-primary">Submit</button>
-                <button className="btn btn-lg btn-secondary">Cancel</button>
-              </form>
-            </div>
-          )}
-          <Link to="/newwork">
-            <button className="btn btn-lg btn-primary">Add</button>
+            
+            )}
+          </div>
+          <Link to="/newwork" className="workAddBtn">
+            <button className="btn btn-lg btn-primary">+</button>
           </Link>
           {message ? <Message message={message} /> : null}
         </div>
