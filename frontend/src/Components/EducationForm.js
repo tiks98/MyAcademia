@@ -64,7 +64,7 @@ const EducationForm = (props) => {
       console.log(message);
       if (!message.msgError) {
         timerID = setTimeout(() => {
-          props.history.push("/profile");
+          props.history.push("/myprofile");
         }, 2000);
       }
     });

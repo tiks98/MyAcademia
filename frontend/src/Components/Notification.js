@@ -98,9 +98,7 @@ const Notification = (props) => {
         if (data.data === null) {
           console.log("No Notifications Found");
         } else {
-          // const item = [data.data];
           setNotifications(data.data);
-          // console.log(notifications[0]);
         }
       });
       setI(1);
@@ -160,39 +158,6 @@ const Notification = (props) => {
     });
   };
 
-  // const GetDateTime = (e) => {
-  //   var DateTimeNow = new Date();
-  //   const ISOstring = DateTimeNow.toISOString();
-  //   const DNow = ISOstring.slice(0, 10);
-  //   console.log("DNow: " + DNow);
-  //   // console.log(ISOstring);
-  //   // var notiDateTime = null;
-  //   if (notifications.length === 0) {
-  //     console.log("Notification Array length: " + notifications.length);
-  //   } else {
-  //     for (let i = 0; i < notifications.length; i++) {
-  //       console.log(i);
-  //       var notiDateTime = notifications[i].created_date.slice(0, 10);
-  //       console.log(notifications.length);
-  //       console.log("notiDateTime: " + notiDateTime);
-  //       if (DNow === notiDateTime) {
-  //         console.log("Today");
-  //         return (
-  //           <div>
-  //             <h5>Today</h5>
-  //           </div>
-  //         );
-  //       } else {
-  //         return (
-  //           <div>
-  //             <h5>{notiDateTime}</h5>
-  //           </div>
-  //         );
-  //       }
-  //     }
-  //   }
-  // };
-
   const readByUser = (notification) => {
     const notificationID = notification._id;
     console.log(notification);
@@ -242,11 +207,30 @@ const Notification = (props) => {
             Delete All Personal Notification
           </button>
           {profileNotification
-            .sort(
-              (a, b) =>
-                b.notiCreationDate.slice(8, 10) -
-                a.notiCreationDate.slice(8, 10)
-            )
+            .sort((a, b) => {
+              if (
+                a.notiCreationDate.slice(0, 4) ===
+                b.notiCreationDate.slice(0, 4)
+              ) {
+                if (
+                  a.notiCreationDate.slice(5, 7) ===
+                  b.notiCreationDate.slice(5, 7)
+                )
+                  return (
+                    b.notiCreationDate.slice(8, 10) -
+                    a.notiCreationDate.slice(8, 10)
+                  );
+                else
+                  return (
+                    b.notiCreationDate.slice(5, 7) -
+                    a.notiCreationDate.slice(5, 7)
+                  );
+              } else
+                return (
+                  b.notiCreationDate.slice(0, 4) -
+                  a.notiCreationDate.slice(0, 4)
+                );
+            })
             .map((notification) => (
               <div>
                 {notification === null ? null : (
@@ -307,10 +291,28 @@ const Notification = (props) => {
                   Hide Notifications
                 </button>
                 {notifications
-                  .sort(
-                    (a, b) =>
-                      b.created_date.slice(8, 10) - a.created_date.slice(8, 10)
-                  )
+                  .sort((a, b) => {
+                    if (
+                      a.created_date.slice(1, 4) === b.created_date.slice(1, 4)
+                    ) {
+                      if (
+                        a.created_date.slice(6, 7) ===
+                        b.created_date.slice(6, 7)
+                      )
+                        return (
+                          b.created_date.slice(9, 10) -
+                          a.created_date.slice(9, 10)
+                        );
+                      else
+                        return (
+                          b.created_date.slice(6, 7) -
+                          a.created_date.slice(6, 7)
+                        );
+                    } else
+                      return (
+                        b.created_date.slice(1, 4) - a.created_date.slice(1, 4)
+                      );
+                  })
                   .map((notification) => (
                     <div
                       key={notification._id}
