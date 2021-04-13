@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect,useHistory } from "react-router-dom";
 import Axios from "axios";
 import { AuthContext } from "../Context/AuthContext";
 import {app} from '../base';
@@ -22,6 +22,7 @@ function New(props) {
     let link = "";
     let fileType = "";
     let ext = "";
+    const history = useHistory();
 
     const [inputs, setInputs] = useState({
         username: user.username,
@@ -85,7 +86,8 @@ function New(props) {
             },
             withCredentials: true,
             url: "http://localhost:4000/addblog",
-          }).then((data) => console.log("Completed "  + data))
+          }).then((data) => console.log("Completed "  + data));
+      history.push("/");
       };
   
     function handleInputChange(event) {

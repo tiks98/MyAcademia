@@ -96,6 +96,15 @@ const Home = (props) => {
     }
   }
 
+  const Post = (blog) => {
+    return(        
+    <div className = "blogArea">
+      <div>{blog.username}</div>
+      <div>{blog.postdate}</div>
+      <div>{blog.content}</div>
+    {blogCreation(blog)}
+  </div>)
+  }
 
   return (
     <div>
@@ -110,14 +119,8 @@ const Home = (props) => {
       <h2>{myprofileId}</h2>
       <Link className="Links" to={`/newblog`}>Add New Blog</Link>
       {blogs.map(blog => ( 
-        <div className = "blogArea">
-        <div>{blog.username}</div>
-        <div>{blog.postdate}</div>
-        <div>{blog.content}</div>
-        <div>{blog.type}</div>
-        <div>{blog.contentURL}</div>
-        {blogCreation(blog)}
-      </div>))}
+        Post(blog)
+))}
     </div>
   );
 };
