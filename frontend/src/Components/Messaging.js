@@ -5,7 +5,6 @@ import { ChatEngine } from 'react-chat-engine';
 import ChatFeed from './ChatFeed'
 import './Chat.css'
 
-
 const projectID = 'ba51f22d-370e-42e6-96d5-d2bcd3c3d3c5';
 
  const Messaging = () => {
@@ -19,7 +18,7 @@ const projectID = 'ba51f22d-370e-42e6-96d5-d2bcd3c3d3c5';
       userName={user.username}
       userSecret="123123"
       renderChatFeed={(chatAppProps) => <ChatFeed {...chatAppProps} />}
-      onNewMessage={() => new Audio('https://chat-engine-assets.s3.amazonaws.com/click.mp3').play()}
+      onNewMessage={() => new Audio('https://firebasestorage.googleapis.com/v0/b/myacademia-group-project.appspot.com/o/juntos-607.mp3?alt=media&token=a434fcc9-b49b-4b94-a6a3-e9a32157faf7').play()}
     />
   );
 };
