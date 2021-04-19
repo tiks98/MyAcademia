@@ -14,7 +14,6 @@ function New(props) {
       {label:"Connections", value:"connections"},
       {label:"Everyone", value:"everyone"}
     ]
-  
 
     let file;
     let storageRef;
@@ -32,7 +31,7 @@ function New(props) {
     });
     const [redirect, setRedirect] = useState(false);
 
-    const [s] = useState({
+    const [s, setS] = useState({
       option:options[0].value
     })
 
@@ -41,7 +40,6 @@ function New(props) {
         console.log(option);
     }
     
-
     const fileUpload = async () => {
       ext = file.name.split('.')[1];
       let x = Math.floor((Math.random() * 100000000000000) + 1).toString() + '.'+ ext;
@@ -82,19 +80,19 @@ function New(props) {
                 content: inputs.content,
                 contentURL: link,
                 type: fileType,
-                sharing: s.option.value
+                sharing: s.option
             },
             withCredentials: true,
             url: "http://localhost:4000/addblog",
           }).then((data) => console.log("Completed "  + data));
-      history.push("/");
+      setTimeout( function(){history.push("/")},3000);
       };
   
     function handleInputChange(event) {
       event.persist();
   
       const { name, value } = event.target;
-  
+      
       setInputs(inputs => {
         inputs[name] = value;
         return inputs;
@@ -110,6 +108,7 @@ function New(props) {
     return (
       <div className="container">
         {!isAuthenticated ? <Redirect to="/login" /> : null}
+        {    console.log(s.option)}
         <header>
           <h1>Want to add Something new {!user.username ? null : user.username}</h1>
         </header>
