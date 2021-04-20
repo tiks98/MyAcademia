@@ -29,7 +29,7 @@ const educationRouter = require("./routes/educationRoute");
 const workRouter = require("./routes/workRoute");
 const searchRouter = require("./routes/searchRoute");
 const friendshipRouter = require("./routes/friendshipRoute");
-
+const blogRouter = require('./routes/blogRoute');
 const notificationRouter = require("./routes/notificationRoute");
 const challengeRouter = require("./routes/challengeRoute");
 const scoreRouter = require("./routes/scoreRoute");
@@ -65,6 +65,8 @@ app.use(
   educationRouter,
   workRouter,
   searchRouter,
+  friendshipRouter,
+  blogRouter
   friendshipRouter,
   notificationRouter,
   challengeRouter,
