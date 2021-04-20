@@ -53,6 +53,7 @@ const Home = (props) => {
           IQ: data.data.IQ,
           about: data.data.about,
           isFaculty: data.data.isFaculty,
+          friends: data.data.friends
         });
       }
     });
@@ -96,14 +97,38 @@ const Home = (props) => {
     }
   }
 
-  const Post = (blog) => {
-    return(        
-    <div className = "blogArea">
-      <div>{blog.username}</div>
-      <div>{blog.postdate}</div>
-      <div>{blog.content}</div>
-    {blogCreation(blog)}
-  </div>)
+  const Post = (blog, key) => {
+
+    if(blog.username == profile.username){
+      return(        
+        <div className = "blogArea" key={key}>
+          <div>{blog.username}</div>
+          <div>{blog.postdate}</div>
+          <div>{blog.content}</div>
+        {blogCreation(blog)}
+      </div>)
+    }
+
+    if(blog.sharing == "connections"){
+      console.log(profile.friends);
+      if(profile.friends.find((e) => {return e==blog.username}) != undefined){
+        return(        
+          <div className = "blogArea" key={key}>
+            <div>{blog.username}</div>
+            <div>{blog.postdate}</div>
+            <div>{blog.content}</div>
+          {blogCreation(blog)}
+        </div>)
+      }
+    }else{
+      return(        
+      <div className = "blogArea" key={key}>
+        <div>{blog.username}</div>
+        <div>{blog.postdate}</div>
+        <div>{blog.content}</div>
+      {blogCreation(blog)}
+    </div>)
+  }
   }
 
   return (
@@ -118,8 +143,8 @@ const Home = (props) => {
       {/* {getMyProfile()} */}
       <h2>{myprofileId}</h2>
       <Link className="Links" to={`/newblog`}>Add New Blog</Link>
-      {blogs.map(blog => ( 
-        Post(blog)
+      {blogs.map((blog, key) => ( 
+        Post(blog, key)
 ))}
     </div>
   );
