@@ -5,6 +5,7 @@ import { AuthContext } from "../Context/AuthContext";
 import Message from "./Message";
 import Profile from "./Profile";
 import defaultProfilePhoto from "../Images/default_profile_picture.png";
+import styling from "../Styling/search.css";
 
 const Search = (props) => {
   const { isAuthenticated, user, googleLogin } = useContext(AuthContext);
@@ -147,12 +148,13 @@ const Search = (props) => {
   };
 
   return (
-    <div>
+    <div className="searchMain">
       {!isAuthenticated ? <Redirect to="/login" /> : null}
       <div>
-        <h1>Search for anything</h1>
+        <h1 className="headerMain">Search for anything</h1>
       </div>
-      <div>
+      <hr className="line"></hr>
+      <div className="searchBox">
         <form className="d-flex" onSubmit={searchQuery}>
           <input
             className="form-control me-2"
@@ -166,7 +168,7 @@ const Search = (props) => {
           </button>
         </form>
       </div>
-      <div>
+      <div className="searchSort">
         {!location ? (
           <div>
             <div className="form-check">
@@ -229,12 +231,12 @@ const Search = (props) => {
           </div>
         )}
       </div>
-      <div>
+      <div className="searchBtn">
         <button className="btn btn-primary" onClick={getAllProfile}>
           See All Profiles
         </button>
       </div>
-      <div>
+      <div className="searchProfile">
         {profiles.map((item) => (
           <div className="card border-dark bg-light mb-3 media" key={item._id}>
             {!item.photoUrl ? (

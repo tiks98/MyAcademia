@@ -1,0 +1,121 @@
+.profileSearch .profileImage{
+    display: inline-block;
+}
+
+.profileSearch .profileImage img{
+    margin-top: -110%;
+    margin-left: 120%;
+    border-radius: 100%;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+    border: 2px solid black;
+}
+
+.profileSearch .userInfo{
+    display: inline-block;
+    margin-left: 35%;
+    margin-top: 7%;
+    border: 2px solid black;
+    width: 40%;
+    border-radius: 30px;
+    line-height: 3;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+}
+
+.profileSearch .userName{
+    display: none;
+}
+
+.profileSearch .profileID{
+    display: none;
+}
+
+.profileSearch .userInfo h5{
+    margin-left: 10%;
+    line-height: 1.4;
+}
+
+.profileSearch .friend{
+    display: none;
+}
+
+.profileSearch .btn.btn-primary{
+    width: 18%;
+    font-size: 24px;
+    margin-top: 10%;
+    margin-left: 40%;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+}
+
+.profileSearch .btn.btn-secondary{
+    margin-left: 3%;
+    height: 64px;
+    width: 18%;
+    display: inline-block;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+    font-size: 24px;
+    background-color: grey;
+    margin-top: 7%;
+    margin-left: 15%;
+}
+
+.profileSearch .btn.btn-danger{
+    width: 18%;
+    font-size: 24px;
+    margin-top: 7%;
+    margin-left: 25%;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+    display: inline-block;
+}
+
+.profileSearch .btn.btn-success{
+    margin-left: 3%;
+    height: 64px;
+    width: 18%;
+    display: inline-block;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+    font-size: 24px;
+    margin-top: 5%;
+    margin-left: 15%;
+}
+
+.profileSearch .removeConnection button{
+    margin-left: 50%;
+    width: 18%;
+}
+
+.profileSearch .card.border-dark.bg-light.mb-3{
+    width: 70%;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+    margin-left: 15%;
+    border-radius: 20px;
+}
+
+.profileSearch .header{
+    text-align: center;
+    font-size: 36px;
+    color: #f28d18;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.profileSearch .card.border-dark.bg-light.mb-3 h4{
+    margin-left: 5%;
+    line-height: 1.5;
+    margin-top: 1%;
+    margin-bottom: 2%;
+}
+
+/* .profileSearch .connection{
+    display: none;
+} */
+
+.profileSearch .userInfo .checkFriend{
+    font-weight: bold;
+}
+
+.profileSearch .removeConnection .btn.btn-danger{
+    margin-left: 42.5%;
+    margin-top: 7%;
+    margin-bottom: 4%;
+}
+

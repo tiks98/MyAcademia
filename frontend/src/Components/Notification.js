@@ -3,6 +3,7 @@ import Axios from "axios";
 import { Link, Redirect } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
 import NotificationPopUp from "./NotificationPopUp";
+import styling from "../Styling/notification.css";
 
 const Notification = (props) => {
   const { isAuthenticated, user, googleLogin } = useContext(AuthContext);
@@ -188,23 +189,24 @@ const Notification = (props) => {
   };
 
   return (
-    <div>
+    <div className="notificationMain">
       {!isAuthenticated ? <Redirect to="/login" /> : null}
-      <h1>Welcome to Notification Page</h1>
-      <h2>{!user.username ? null : user.username}</h2>
+      <h1 className="main">Welcome to Notification Page</h1>
+      <h2 className="userName">{!user.username ? null : user.username}</h2>
       {notificationPopUp.message !== "" ? (
         <NotificationPopUp notificationPopUp={notificationPopUp} />
       ) : null}
-      <h4>Personal Notifications</h4>
+      <h4 className="headerPersonal">Personal Notifications</h4>
+      <hr className="lineMain"></hr>
       {profileNotification.length === 0 ? (
-        <h3>You have no personal notifications</h3>
+        <h3 className="empty">You have no personal notifications</h3>
       ) : (
-        <div>
+        <div className="notificationBtn">
           <button
-            className="btn btn-danger"
+            className="btn btn-danger btn-delete"
             onClick={deleteAllProfileNotification}
           >
-            Delete All Personal Notification
+            Delete
           </button>
           {profileNotification
             .sort((a, b) => {
@@ -232,7 +234,7 @@ const Notification = (props) => {
                 );
             })
             .map((notification) => (
-              <div>
+              <div className="notificationBox">
                 {notification === null ? null : (
                   <div>
                     {notification.readByUser ? (
@@ -244,11 +246,11 @@ const Notification = (props) => {
                         <h4>{notification.notification}</h4>
                         <h4>{notification.notiCreationDate.slice(0, 10)}</h4>
                         <button
-                          className="btn btn-danger"
+                          className="btn-danger btn-submit"
                           onClick={deleteProfileNotification}
                           value={notification._id}
                         >
-                          X
+                          Delete
                         </button>
                       </div>
                     ) : (
@@ -261,11 +263,11 @@ const Notification = (props) => {
                         </h4>
                         <h4>{notification.notiCreationDate.slice(0, 10)}</h4>
                         <button
-                          className="btn btn-danger"
+                          className="btn-danger btn-submit"
                           onClick={deleteProfileNotification}
                           value={notification._id}
                         >
-                          X
+                          Delete
                         </button>
                       </div>
                     )}
@@ -276,12 +278,13 @@ const Notification = (props) => {
         </div>
       )}
       {profile.friends.length === 0 ? null : CheckFriendsNotifications()}
-      <h4>Common Notifications</h4>
-      <div>
+      <h4 className="headerCommon">Common Notifications</h4>
+      <hr className="line"></hr>
+      <div className="notificationCommon">
         {showNotification ? (
           <div>
             {notifications.length === 0 ? (
-              <h4>You don't have any common notifications</h4>
+              <h4 className="empty">You don't have any common notifications</h4>
             ) : (
               <div>
                 <button
@@ -314,23 +317,25 @@ const Notification = (props) => {
                       );
                   })
                   .map((notification) => (
-                    <div
-                      key={notification._id}
-                      className="card border-dark bg-light mb-3"
-                    >
-                      <Link to={notification.link.slice(21)}>
-                        <h4>{notification.notification}</h4>
-                      </Link>
-                      <h4>{notification.username}</h4>
-                      {notification.created_date.slice(0, 10) !== ISOstring ? (
-                        <div>
-                          <h5>{notification.created_date.slice(0, 10)}</h5>
-                        </div>
-                      ) : (
-                        <div>
-                          <h5>Today</h5>
-                        </div>
-                      )}
+                    <div className="commonBox">
+                      <div
+                        key={notification._id}
+                        className="card border-dark bg-light mb-3 box"
+                      >
+                        <Link to={notification.link.slice(21)}>
+                          <h4>{notification.notification}</h4>
+                        </Link>
+                        <h4>{notification.username}</h4>
+                        {notification.created_date.slice(0, 10) !== ISOstring ? (
+                          <div className="date">
+                            <h5>{notification.created_date.slice(0, 10)}</h5>
+                          </div>
+                        ) : (
+                          <div className="date">
+                            <h5>Today</h5>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   ))}
               </div>

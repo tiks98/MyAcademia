@@ -1,0 +1,145 @@
+.notificationMain .main{
+    text-align: center;
+    color: #f28d18;
+    margin-top: 3%;
+}
+
+.notificationMain .line{
+    width: 40%;
+    color: #f28d18;
+    box-shadow: 0 0 5px 0 rgb(242,141,24);
+    margin-left: 30%;
+    border: 2px solid #f28d18;
+    margin-bottom: 5%;
+    margin-top: -2%;
+}
+
+.notificationMain .lineMain{
+    width: 40%;
+    color: #f28d18;
+    box-shadow: 0 0 5px 0 rgb(242,141,24);
+    margin-left: 28%;
+    border: 2px solid #f28d18;
+    margin-bottom: 5%;
+    
+}
+
+.notificationMain .userName{
+    display: none;
+}
+
+.notificationMain .headerPersonal{
+    color: #1f8fff;
+    margin-top: 5%;
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 3%;
+    text-align: center;
+}
+
+.notificationMain .notificationBtn .btn.btn-danger{
+    width: 14%;
+    border-radius: 10px;
+    float: right;
+    margin-top: -11%;
+    margin-right: 8%;
+    font-size: 24px;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+    background-color: grey;
+    border: 1px solid grey;
+}
+
+.notificationMain .notificationBtn .notificationBox{
+    width: 70%;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+    margin-left: 14%;
+    border-radius: 10px;
+    margin-top: 2%;
+    
+}
+
+.notificationMain .card.border-dark.bg-light.mb-3{
+    width: 100%;
+    margin-left: 0;
+    border-radius: 10px;
+}
+
+.notificationMain .card.border-dark.bg-light.mb-3 h4{
+    text-align: center;
+    margin-top: 1%;
+}
+
+.notificationMain .notificationBtn .btn-danger.btn-submit{
+    width: 18%;
+    margin-bottom: 2%;
+    margin-left: 41%;
+    font-size: 24px;
+    border-radius: 10px;
+    margin-top: 2%;
+
+}
+
+.notificationMain .card.border-dark.text-white.bg-info.mb-3{
+    width: 100%;
+    margin-left: 0;
+    border-radius: 10px;
+    background-color: #1f8fff;
+}
+
+.notificationMain .card.border-dark.text-white.bg-info.mb-3 h4{
+    text-align: center;
+    margin-top: 1%;
+}
+
+.notificationMain .card.border-dark.text-white.bg-info.mb-3 .btn-danger.btn-submit{
+    width: 18%;
+    margin-bottom: 2%;
+    margin-left: 41%;
+    font-size: 24px;
+    border-radius: 10px;
+    margin-top: 2%;
+    color: white;
+}
+
+.notificationMain .headerCommon{
+    text-align: center;
+    color: #1f8fff;
+    margin-top: 5%;
+    font-size: 40px;
+    margin-bottom: 5%;
+}
+
+.notificationMain .notificationCommon .btn.btn-primary{
+    width: 18%;
+    float: right;
+    margin-top: -12%;
+    font-size: 24px;
+    margin-right: 5%;
+    background-color: grey;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+    border: 2px solid grey;
+}
+
+.notificationMain .card.border-dark.bg-light.mb-3{
+
+}
+
+.notificationMain .commonBox{
+    width: 70%;
+    margin-left: 14%;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+    border-radius: 10px;
+    margin-top: 2%;
+}
+
+.notificationMain .commonBox .date h5{
+    text-align: center;
+    margin-top: 1%;
+}
+
+.notificationMain .empty{
+    text-align: center;
+    font-size: 34px;
+}
+
