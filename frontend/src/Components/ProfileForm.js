@@ -85,7 +85,7 @@ const ProfileForm = (props) => {
   };
 
   return (
-    <div>
+    <div className="createProfile">
       {!isAuthenticated ? <Redirect to="/login" /> : null}
       <form onSubmit={onSubmit}>
         <h1>Create Your Profile</h1>
@@ -164,18 +164,6 @@ const ProfileForm = (props) => {
             onChange={onChange}
             name="location"
             type="text"
-            className="form-control"
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="IQ" className="form-label">
-            IQ:{" "}
-          </label>
-          <input
-            placeholder="Enter IQ"
-            onChange={onChange}
-            name="IQ"
-            type="number"
             className="form-control"
           />
         </div>

@@ -6,6 +6,9 @@ import { AuthContext } from "../Context/AuthContext";
 import AuthService from "../Services/AuthService";
 import Message from "./Message";
 import { Link } from "react-router-dom";
+import logoMain from "../Images/LogoMain.jpeg"
+import logoHome from "../Images/LogoHomePage.jpeg"
+import style from "../Styling/Registration-style.css";
 
 //creating class and extending the component
 const Login = (props) => {
@@ -112,57 +115,63 @@ const Login = (props) => {
 
   // rendering the page with jsx elements
   return (
-    <div>
-      <form onSubmit={onSubmit}>
-        <h1>login</h1>
-        <div className="mb-3">
-          <label htmlFor="username" className="sr-only">
-            Username:{" "}
-          </label>
-          <input
-            placeholder="Enter Username"
-            onChange={onChange}
-            name="username"
-            type="text"
-            className="form-control"
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="password" className="sr-only">
-            Password:{" "}
-          </label>
-          <input
-            placeholder="Enter Password"
-            onChange={onChange}
-            type="password"
-            name="password"
-            className="form-control"
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <button className="btn btn-lg btn-primary btn-block">Submit</button>
-        </div>
-        <div className="mb-3 col-12">
-          <GoogleLogin
-            clientId="255153393550-c00iv7khe28pcrheeitfh6p20h6ie83o.apps.googleusercontent.com"
-            buttonText="Login with Google"
-            onSuccess={responseSuccessGoogle}
-            onFailure={responseFailureGoogle}
-            cookiePolicy={"single_host_origin"}
-            isSignedIn={true}
-          />
-        </div>
-        <div className="mb-3 col-12">
-          <Link to="/register">
-            <button className="btn btn-lg btn-primary" href="/register">
-              Create Account
-            </button>
-          </Link>
-        </div>
-      </form>
-      {message ? <Message message={message} /> : null}
+    <div className="logoMain">
+      <img src={logoMain}></img>
+      <div className="login">
+        <form onSubmit={onSubmit}>
+          <h1>Login</h1>
+          <div className="mb-3">
+            <label htmlFor="username" className="sr-only">
+              Username:{" "}
+            </label>
+            <input
+              placeholder="Enter Username"
+              onChange={onChange}
+              name="username"
+              type="text"
+              className="form-control"
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="password" className="sr-only-password">
+              Password:{" "}
+            </label>
+            <input
+              placeholder="Enter Password"
+              onChange={onChange}
+              type="password"
+              name="password"
+              className="form-control"
+              required
+            />
+          </div>
+          <div className="mb-3 col-12">
+            <button className="btn tbn-lg btn-primary btn-submit">Submit</button>
+          </div>
+          <div className="mb-3 col-12">
+            <GoogleLogin
+              className="googleLogin"
+              clientId="255153393550-c00iv7khe28pcrheeitfh6p20h6ie83o.apps.googleusercontent.com"
+              buttonText="Login with Google"
+              onSuccess={responseSuccessGoogle}
+              onFailure={responseFailureGoogle}
+              cookiePolicy={"single_host_origin"}
+              isSignedIn={true}
+
+            />
+          </div>
+          <div className="mb-3">
+            <p> Not have Account? </p>
+              <Link to="/register">
+                <button className="btn btn-lg btn-primary" href="/register">
+                  Create Account
+                </button>
+              </Link>
+          </div>
+        </form>
+        {message ? <Message message={message} /> : null}
+      </div>
     </div>
   );
 };

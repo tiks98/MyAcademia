@@ -3,6 +3,7 @@ import Axios from "axios";
 import { Redirect } from "react-router-dom";
 import Message from "./Message";
 import { AuthContext } from "../Context/AuthContext";
+import style from '../Styling/profilePage.css';
 
 const EducationForm = (props) => {
   const { isAuthenticated, user } = useContext(AuthContext);
@@ -70,7 +71,7 @@ const EducationForm = (props) => {
   };
 
   return (
-    <div>
+    <div className="education">
       {!isAuthenticated ? <Redirect to="/login" /> : null}
       <form onSubmit={onSubmit}>
         <h1>Add Your Education Details</h1>

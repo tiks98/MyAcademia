@@ -8,6 +8,7 @@ import Search from "./Search";
 import defaultProfilePhoto from "../Images/default_profile_picture.png";
 import MyProfile from "./MyProfile";
 import NotificationPopUp from "./NotificationPopUp";
+import styling from "../Styling/searchProfile.css";
 
 const Profile = (props) => {
   const { isAuthenticated, user, googleLogin, myprofileId } = useContext(
@@ -353,7 +354,7 @@ const Profile = (props) => {
   };
 
   return (
-    <div>
+    <div className="profileSearch">
       {!isAuthenticated ? <Redirect to="/login" /> : null}
       {notificationPopUp.message !== "" ? (
         <NotificationPopUp notificationPopUp={notificationPopUp} />
@@ -361,44 +362,48 @@ const Profile = (props) => {
       {/* {!props.haveProfile ? <Redirect to="/myprofile" /> : null} */}
       <div>
         <div>
-          {!profile.photoUrl ? (
-            <img
-              src={defaultProfilePhoto}
-              alt="defaultProfilePhoto"
-              style={{ width: "200px", height: "200px" }}
-            ></img>
-          ) : (
-            <img
-              src={profile.photoUrl}
-              style={{ width: "200px", height: "200px" }}
-              alt="profilePhoto"
-            ></img>
-          )}
-          <h2>
-            {!profile.username ? null : <h2>Username: {profile.username}</h2>}
-            {!profile.username ? null : getFriendshipStatus()}
-          </h2>
-          {/* <h3>
-            {!myprofileId ? null : <h3>My Profile Id: {myprofileId} </h3>}
-          </h3> */}
-          <h3>
-            {!myProfileID ? null : <h3>My Profile Id: {myProfileID.mypid}</h3>}
-          </h3>
-          <h5>First Name: {profile.firstName}</h5>
-          <h5>Last Name: {profile.lastName}</h5>
-          <h5>Email: {profile.email}</h5>
-          <h5>College Name: {profile.collegeName}</h5>
-          <h5>Location: {profile.location}</h5>
-          <h5>IQ: {profile.IQ}</h5>
-          <h5>About Me: {profile.about}</h5>
-          {!profile.isFaculty ? <h3>Student</h3> : <h3>Education Faculty</h3>}
+          <div className="profileImage">
+            {!profile.photoUrl ? (
+              <img
+                src={defaultProfilePhoto}
+                alt="defaultProfilePhoto"
+                style={{ width: "200px", height: "200px" }}
+              ></img>
+            ) : (
+              <img
+                src={profile.photoUrl}
+                style={{ width: "200px", height: "200px" }}
+                alt="profilePhoto"
+              ></img>
+            )}
+          </div>
+          <div className="userInfo">
+            <h2 className="userName">
+              {!profile.username ? null : <h2>Username: {profile.username}</h2>}
+              {!profile.username ? null : getFriendshipStatus()}
+            </h2>
+            {/* <h3>
+              {!myprofileId ? null : <h3>My Profile Id: {myprofileId} </h3>}
+            </h3> */}
+            <h3 className="profileID">
+              {!myProfileID ? null : <h3>My Profile Id: {myProfileID.mypid}</h3>}
+            </h3>
+            <h5>Name: {profile.firstName} {profile.lastName}</h5>
+            <h5>Email: {profile.email}</h5>
+            <h5>College Name: {profile.collegeName}</h5>
+            <h5>Location: {profile.location}</h5>
+            <h5>IQ: {profile.IQ}</h5>
+            <h5>About Me: {profile.about}</h5>
+            {!profile.isFaculty ? <h5>Occupation: Student</h5> : <h5>Education Faculty</h5>}
+            {!isFriends ? <h5 className="checkFriend">You Are Not friends</h5> : <h5 className="checkFriend">You Are Friends</h5>}
+          </div>
           {!isFriends ? null : (
             <div>
               {profile.friends.length === 0 ? null : (
                 <div>
                   {profile.friends.map((friend) => (
                     <div>
-                      <h5>Friend's Username: {friend}</h5>
+                      <h5 className="friend">Friend's Username: {friend}</h5>
                     </div>
                   ))}
                 </div>
@@ -406,11 +411,11 @@ const Profile = (props) => {
             </div>
           )}
           {!isFriends ? (
-            <div>
+            <div className="friendRequest">
               {friends.status === 1 ? (
                 <div>
                   {friends.requester === user.username ? (
-                    <div>
+                    <div className="inlineBtn">
                       <button className="btn btn-secondary" disabled>
                         Sent Request
                       </button>
@@ -447,22 +452,23 @@ const Profile = (props) => {
               )}
             </div>
           ) : (
-            <div>
+            <div className="removeConnection">
               <button className="btn btn-danger" onClick={cancelRequest}>
                 Remove Connection
               </button>
             </div>
           )}
           {message ? <Message message={message} /> : null}
-          <div>
-            {!isFriends ? <h1>not friends</h1> : <h1>friends</h1>}
+          <div className="connection">
             {!isFriends ? null : (
-              <div>
+              <div >
+                <h5 className="header">Education Details</h5>
                 {educations.map((education) => (
                   <div
-                    className="card border-dark bg-light mb-3"
+                  className="card border-dark bg-light mb-3"
                     key={education._id}
                   >
+                    
                     <h4 className="item" value={education.collegeName}>
                       College Name: {education.collegeName}
                     </h4>
@@ -482,16 +488,19 @@ const Profile = (props) => {
                     )}
                   </div>
                 ))}
+                <h5 className="header">Work Details</h5>
                 {works.map((work) => (
+                  
                   <div
-                    className="card border-dark bg-light mb-3"
+                  className="card border-dark bg-light mb-3"
                     key={work._id}
                   >
+                    
                     <h4 className="item" value={work.position}>
-                      College Name: {work.position}
+                      Position: {work.position}
                     </h4>
                     <h4 className="item" value={work.employerName}>
-                      College Location: {work.employerName}
+                      Employer Name: {work.employerName}
                     </h4>
                     <h4 className="item">
                       Start Date: {work.startDate.slice(0, 10)}
