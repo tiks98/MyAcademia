@@ -66,8 +66,7 @@ app.use(
   workRouter,
   searchRouter,
   friendshipRouter,
-  blogRouter
-  friendshipRouter,
+  blogRouter,
   notificationRouter,
   challengeRouter,
   scoreRouter
