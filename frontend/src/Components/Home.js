@@ -3,7 +3,7 @@ import Axios from "axios";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
 import { Link } from "react-router-dom";
-
+import './Home.css'
 
 const Home = (props) => {
   const { isAuthenticated, user, googleLogin, myprofileId } = useContext(
@@ -114,9 +114,9 @@ const Home = (props) => {
       if(profile.friends.find((e) => {return e==blog.username}) != undefined){
         return(        
           <div className = "blogArea" key={key}>
-            <div>{blog.username}</div>
-            <div>{blog.postdate}</div>
-            <div>{blog.content}</div>
+            <div className="username">{blog.username}</div>
+            <div className="postdate">{blog.postdate}</div>
+            <div className="content">{blog.content}</div>
           {blogCreation(blog)}
         </div>)
       }

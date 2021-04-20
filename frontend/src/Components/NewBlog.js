@@ -41,6 +41,9 @@ function New(props) {
     }
     
     const fileUpload = async () => {
+      if(file == undefined || file == "")
+        return;
+
       ext = file.name.split('.')[1];
       let x = Math.floor((Math.random() * 100000000000000) + 1).toString() + '.'+ ext;
       storageRef = app.storage().ref()
@@ -59,7 +62,10 @@ function New(props) {
 
         await fileUpload()
 
-        await fileRef.getDownloadURL().then(e => link =  e.toString())
+        if(file != undefined){
+          console.log(file);
+            await fileRef.getDownloadURL().then(e => link =  e.toString())
+          }
 
         if(ext == "mp4" || ext == "mov" || ext == "wmv" || ext == "flv" || ext == "avi" || ext == "avchd" || ext == "webm" ||ext == "mkv" || ext == "mp3"){
           fileType = "video";
