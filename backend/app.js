@@ -30,6 +30,9 @@ const workRouter = require("./routes/workRoute");
 const searchRouter = require("./routes/searchRoute");
 const friendshipRouter = require("./routes/friendshipRoute");
 const blogRouter = require('./routes/blogRoute');
+const notificationRouter = require("./routes/notificationRoute");
+const challengeRouter = require("./routes/challengeRoute");
+const scoreRouter = require("./routes/scoreRoute");
 // var indexRouter = require("./index");
 // var homeRouter = require("./routes/home");
 
@@ -64,6 +67,10 @@ app.use(
   searchRouter,
   friendshipRouter,
   blogRouter
+  friendshipRouter,
+  notificationRouter,
+  challengeRouter,
+  scoreRouter
 );
 // app.use("/search", searchRouter);
 

@@ -37,6 +37,24 @@ const profile = new mongoose.Schema({
     default: false,
   },
   friends: [String],
+  notifications: [
+    {
+      notification: {
+        type: String,
+      },
+      link: {
+        type: String,
+      },
+      readByUser: {
+        type: Boolean,
+        default: false,
+      },
+      notiCreationDate: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
   created_date: {
     type: Date,
     default: Date.now,

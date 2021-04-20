@@ -300,6 +300,17 @@ const MyProfile = (props) => {
       setMessage(message);
       console.log(message);
     });
+    Axios({
+      method: "POST",
+      data: {
+        notification: `${profile.firstName} ${profile.lastName} has updated their Profile Details`,
+        username: user.username,
+        link: `http://localhost:3000/profile/${profile.id}`,
+      },
+      url: "http://localhost:4000/addnotification",
+    }).then((data) => {
+      console.log(data.data);
+    });
   };
 
   const deleteEducation = (e) => {

@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Axios from "axios";
 import { Link, Redirect } from "react-router-dom";
+import { store } from "react-notifications-component";
 import { AuthContext } from "../Context/AuthContext";
 import Message from "./Message";
 import Search from "./Search";
 import defaultProfilePhoto from "../Images/default_profile_picture.png";
 import MyProfile from "./MyProfile";
+import NotificationPopUp from "./NotificationPopUp";
 
 const Profile = (props) => {
   const { isAuthenticated, user, googleLogin, myprofileId } = useContext(
@@ -16,6 +18,8 @@ const Profile = (props) => {
   const [message, setMessage] = useState(null);
   const [myProfileID, setMyProfileId] = useState({
     mypid: "",
+    firstName: "",
+    lastName: "",
   });
   const [profile, setProfile] = useState({
     id: "",
@@ -43,7 +47,11 @@ const Profile = (props) => {
   });
   const [i, setI] = useState(0);
   let timerID = useRef(null);
-
+  const [notificationPopUp, setNotificationPopUp] = useState({
+    title: "",
+    message: "",
+    type: "",
+  });
   useEffect(() => {
     const urlNow = window.location.href;
     const profileId = urlNow.slice(30);
@@ -84,8 +92,10 @@ const Profile = (props) => {
         console.log("No Profile data found");
       } else {
         setMyProfileId({
-          ...myprofileId,
+          ...myProfileID,
           mypid: data.data._id,
+          firstName: data.data.firstName,
+          lastName: data.data.lastName,
         });
       }
     });
@@ -184,6 +194,22 @@ const Profile = (props) => {
       setMessage(message);
       console.log(message);
       setRequestSent(true);
+    });
+    Axios({
+      method: "put",
+      data: {
+        notification: `${myProfileID.firstName} ${myProfileID.lastName} has sent you friend request`,
+        link: `http://localhost:3000/profile/${myProfileID.mypid}`,
+      },
+      url: `http://localhost:4000/addnotification/${profile.id}`,
+    }).then((data) => {
+      console.log(data.data);
+      setNotificationPopUp({
+        ...notificationPopUp,
+        title: "Friend Request Sent",
+        message: `You have sent a friend request to ${profile.firstName} ${profile.lastName}`,
+        type: "info",
+      });
       setTimeout(() => {
         reloadPage();
       }, 2000);
@@ -237,6 +263,22 @@ const Profile = (props) => {
     }).then((data) => {
       console.log(data.data);
     });
+    Axios({
+      method: "put",
+      data: {
+        notification: `${myProfileID.firstName} ${myProfileID.lastName} has accepted your friend request`,
+        link: `http://localhost:3000/profile/${myProfileID.mypid}`,
+      },
+      url: `http://localhost:4000/addnotification/${profile.id}`,
+    }).then((data) => {
+      console.log(data.data);
+      setNotificationPopUp({
+        ...notificationPopUp,
+        title: "Friend Request Accepted",
+        message: `You have accepted a friend request from ${profile.firstName} ${profile.lastName}`,
+        type: "success",
+      });
+    });
   };
 
   const cancelRequest = () => {
@@ -282,6 +324,27 @@ const Profile = (props) => {
       }).then((data) => {
         console.log(data.data);
       });
+      if (friends.status === 2) {
+        setNotificationPopUp({
+          ...notificationPopUp,
+          title: "Connection Removed",
+          message: `You have removed your connection with ${profile.firstName} ${profile.lastName}`,
+          type: "danger",
+        });
+        setTimeout(() => {
+          reloadPage();
+        }, 5000);
+      } else {
+        setNotificationPopUp({
+          ...notificationPopUp,
+          title: "Friend Request Canceled",
+          message: `You have canceled a friend request from ${profile.firstName} ${profile.lastName}`,
+          type: "danger",
+        });
+        setTimeout(() => {
+          reloadPage();
+        }, 5000);
+      }
     }
   };
 
@@ -292,6 +355,9 @@ const Profile = (props) => {
   return (
     <div>
       {!isAuthenticated ? <Redirect to="/login" /> : null}
+      {notificationPopUp.message !== "" ? (
+        <NotificationPopUp notificationPopUp={notificationPopUp} />
+      ) : null}
       {/* {!props.haveProfile ? <Redirect to="/myprofile" /> : null} */}
       <div>
         <div>

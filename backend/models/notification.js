@@ -1,17 +1,16 @@
 const mongoose = require("mongoose");
 
-const friendship = new mongoose.Schema({
-  requester: {
+const notification = new mongoose.Schema({
+  notification: {
     type: String,
     required: true,
   },
-  recipient: {
+  username: {
     type: String,
     required: true,
   },
-  status: {
-    type: Number,
-    required: true,
+  link: {
+    type: String,
   },
   created_date: {
     type: Date,
@@ -19,4 +18,4 @@ const friendship = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Friendship", friendship);
+module.exports = mongoose.model("Notification", notification);
