@@ -3,15 +3,14 @@ import Axios from "axios";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
 import { Link } from "react-router-dom";
-import './Home.css'
+import "./Home.css";
 
 const Home = (props) => {
-  const { isAuthenticated, user, googleLogin, myprofileId } = useContext(
-    AuthContext
-  );
+  const { isAuthenticated, user, googleLogin, myprofileId } =
+    useContext(AuthContext);
   const authContext = useContext(AuthContext);
   const [i, SetI] = useState(false);
-  const [blogs, setBlogs] = useState([])
+  const [blogs, setBlogs] = useState([]);
   const [profile, setProfile] = useState({
     id: "",
     photoUrl: "",
@@ -53,7 +52,7 @@ const Home = (props) => {
           IQ: data.data.IQ,
           about: data.data.about,
           isFaculty: data.data.isFaculty,
-          friends: data.data.friends
+          friends: data.data.friends,
         });
       }
     });
@@ -71,81 +70,81 @@ const Home = (props) => {
 
   useEffect(() => {
     Axios.get("http://localhost:4000/getblog")
-      .then(result => setBlogs(result.data))
-      .catch(err => console.error(err));
+      .then((result) => setBlogs(result.data))
+      .catch((err) => console.error(err));
   }, []);
 
   const blogCreation = (e) => {
-    if(e.type == "video"){
-      return(
-        <iframe width="420" height="315"
-        src={e.contentURL}>
-        </iframe>
-      )
-    }else if(e.type =="image"){
-      return(
-        <img src = {e.contentURL} width="420" height="315"/>
-      )
-    }else if(e.type = "pdf"){
-      return(
-        <embed src={e.contentURL} />
-      )
-    }else {
-      return(
-        <link href={e.contentURL} width  />
-        )
+    if (e.type == "video") {
+      return <iframe width="420" height="315" src={e.contentURL}></iframe>;
+    } else if (e.type == "image") {
+      return <img src={e.contentURL} width="420" height="315" />;
+    } else if ((e.type = "pdf")) {
+      return <embed src={e.contentURL} />;
+    } else {
+      return <link href={e.contentURL} width />;
     }
-  }
+  };
 
   const Post = (blog, key) => {
-
-    if(blog.username == profile.username){
-      return(        
-        <div className = "blogArea" key={key}>
+    if (blog.username == profile.username) {
+      return (
+        <div className="blogArea" key={key}>
           <div>{blog.username}</div>
           <div>{blog.postdate}</div>
           <div>{blog.content}</div>
-        {blogCreation(blog)}
-      </div>)
+          {blogCreation(blog)}
+        </div>
+      );
     }
 
-    if(blog.sharing == "connections"){
+    if (blog.sharing == "connections") {
       console.log(profile.friends);
-      if(profile.friends.find((e) => {return e==blog.username}) != undefined){
-        return(        
-          <div className = "blogArea" key={key}>
+      if (
+        profile.friends.find((e) => {
+          return e == blog.username;
+        }) != undefined
+      ) {
+        return (
+          <div className="blogArea" key={key}>
             <div className="username">{blog.username}</div>
             <div className="postdate">{blog.postdate}</div>
             <div className="content">{blog.content}</div>
-          {blogCreation(blog)}
-        </div>)
+            {blogCreation(blog)}
+          </div>
+        );
       }
-    }else{
-      return(        
-      <div className = "blogArea" key={key}>
-        <div>{blog.username}</div>
-        <div>{blog.postdate}</div>
-        <div>{blog.content}</div>
-      {blogCreation(blog)}
-    </div>)
-  }
-  }
+    } else {
+      return (
+        <div className="blogArea" key={key}>
+          <div>{blog.username}</div>
+          <div>{blog.postdate}</div>
+          <div>{blog.content}</div>
+          {blogCreation(blog)}
+        </div>
+      );
+    }
+  };
 
   return (
     <div>
       {!isAuthenticated ? <Redirect to="/login" /> : null}
       <h1>Welcome Back</h1>
       <h2>{!user.username ? null : user.username}</h2>
-      {/* <h2>{!profile.id ? null : profile.id}</h2> */}
-      {/* {profile} */}
-      {/* <h2>{!myprofileId ? null : myprofileId}</h2> */}
       {!profile.id ? null : getMyProfile()}
-      {/* {getMyProfile()} */}
       <h2>{myprofileId}</h2>
-      <Link className="Links" to={`/newblog`}>Add New Blog</Link>
-      {blogs.map((blog, key) => ( 
-        Post(blog, key)
-))}
+      <Link className="Links" to={`/newblog`}>
+        Add New Blog
+      </Link>
+      {blogs
+        .sort((a, b) => {
+          if (a.postdate.slice(0, 4) === b.postdate.slice(0, 4)) {
+            if (a.postdate.slice(5, 7) === b.postdate.slice(5, 7))
+              return b.postdate.slice(8, 10) - a.postdate.slice(8, 10);
+            else return b.postdate.slice(5, 7) - a.postdate.slice(5, 7);
+          } else return b.postdate.slice(0, 4) - a.postdate.slice(0, 4);
+        })
+        .map((blog, key) => Post(blog, key))}
     </div>
   );
 };

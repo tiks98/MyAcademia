@@ -20,6 +20,7 @@ import Search from "./Search";
 import Profile from "./Profile";
 import NewBlog from "./NewBlog";
 import IQTest from "./IQTest";
+import FriendsList from "./FriendsList";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
       <Route path="/search" component={Search} />
       <Route path="/newblog" component={NewBlog} />
       <Route path="/newtest" component={IQTest} />
+      <Route path="/friendslist" component={FriendsList} />
     </Router>
   );
 }

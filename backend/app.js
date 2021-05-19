@@ -12,10 +12,14 @@ var User = require("./models/user");
 var Profile = require("./models/profile");
 app.use(cookieParser());
 app.use(express.json());
+require("dotenv").config();
 
 mongoose.connect(
-  "mongodb+srv://MyAcademia:MyAcademia987789@cluster0.czdwc.mongodb.net/myacademia?retryWrites=true&w=majority",
-  { useNewUrlParser: true, useUnifiedTopology: true }
+  `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASS}@cluster0.czdwc.mongodb.net/myacademia?retryWrites=true&w=majority`,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
 );
 
 var db = mongoose.connection;
@@ -29,7 +33,7 @@ const educationRouter = require("./routes/educationRoute");
 const workRouter = require("./routes/workRoute");
 const searchRouter = require("./routes/searchRoute");
 const friendshipRouter = require("./routes/friendshipRoute");
-const blogRouter = require('./routes/blogRoute');
+const blogRouter = require("./routes/blogRoute");
 const notificationRouter = require("./routes/notificationRoute");
 const challengeRouter = require("./routes/challengeRoute");
 const scoreRouter = require("./routes/scoreRoute");
@@ -66,7 +70,7 @@ app.use(
   workRouter,
   searchRouter,
   friendshipRouter,
-  blogRouter
+  blogRouter,
   friendshipRouter,
   notificationRouter,
   challengeRouter,
